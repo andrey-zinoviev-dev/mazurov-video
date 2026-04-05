@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Container } from "@/components/Container/Container";
+import { MetaText } from "@/components/MetaText/MetaText";
 import styles from "./Hero.module.css";
 
 const TOP_IMAGE = "https://picsum.photos/seed/videoprod-top/480/640";
@@ -42,8 +43,8 @@ export function Hero() {
           
           <div className={styles.cellMain}>
             <div className={styles.centerMeta}>
-                <span>Reel_001</span>
-                <span>2026.04</span>
+              <MetaText text="Reel_001" />
+              <MetaText text="2026.04" />
             </div>
             {/* <a href="#work" className={styles.viewLink}>
               View
@@ -59,14 +60,15 @@ export function Hero() {
             </figure>
           </div>
           <footer className={styles.footer}>
-            <span className={styles.textBy}>VIDEO_PRODUCTION</span>
+            <MetaText text="VIDEO_PRODUCTION" className={styles.textBy} />
             <div className={styles.creditsBand}>
-              <span className={styles.creditsLeft}>MAZUROV</span>
-              <span className={styles.creditsRight}>
+              <MetaText text="MAZUROV" className={styles.creditsLeft} />
+              <MetaText text="LW Studio" className={styles.creditsRight} />
+              {/* <span className={styles.creditsRight}>
                 Photos
                 <br />
-                LW Studio
-              </span>
+                  LW Studio
+              </span> */}
             </div>
           </footer>
         </div>

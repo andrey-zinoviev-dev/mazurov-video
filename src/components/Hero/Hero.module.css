@@ -48,15 +48,11 @@
   /* top: 50%; */
   /* transform: translate(-50%, -1.35rem); */
   /* z-index: 9; */
+  /* --meta-text-font-size: 0.5625rem; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: min(100% - 2rem, calc(var(--hero-img-w) * 2 + 4rem));
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.5625rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
 }
 
 .cellMain {
@@ -171,7 +167,7 @@
   align-items: end;
   width: 100%;
   padding-bottom: clamp(1rem, 2.5vh, 1.5rem);
-  font-size: 0.625rem;
+  /* font-size: 0.625rem; */
 }
 
 .textBy {
