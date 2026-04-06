@@ -124,8 +124,6 @@
 
 .headlineLeft,
 .headlineRight {
-  font-family: var(--font-headline), system-ui, sans-serif;
-  font-weight: 700;
   font-size: clamp(1.35rem, 4.2vw, 4.5rem);
   line-height: 0.95;
   letter-spacing: 0.02em;
