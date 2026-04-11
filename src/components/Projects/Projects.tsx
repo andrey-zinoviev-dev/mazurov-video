@@ -48,7 +48,7 @@ type ProjectsProps = {
 
 export function Projects({ projects = DEFAULT_PROJECTS }: ProjectsProps) {
   return (
-    <section className={styles.section} aria-labelledby="projects-heading">
+    <section id="projects" className={styles.section} aria-labelledby="projects-heading">
       <Container>
         <h2 id="projects-heading">
           Проекты

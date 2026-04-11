@@ -1,0 +1,208 @@
+.root {
+  --footer-accent: #c4a86a;
+  background: #000;
+  color: #fff;
+  padding-block: clamp(2.5rem, 6vw, 4rem) clamp(2rem, 4vw, 3rem);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+.topBar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.95);
+  text-decoration: none;
+}
+
+.close:hover {
+  opacity: 0.75;
+}
+
+.close:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 4px;
+}
+
+.closeLabel {
+  text-transform: uppercase;
+}
+
+.closeIcon {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 6vw, 4rem);
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .aside {
+    text-align: left;
+  }
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.35rem, 1.5vw, 0.6rem);
+}
+
+.navList a {
+  font-family: var(--font-headline), system-ui, sans-serif;
+  font-size: clamp(2rem, 7vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navList a:hover {
+  opacity: 0.82;
+}
+
+.navList a:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 3px;
+}
+
+.aside {
+  justify-self: end;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.75rem, 4vw, 2.5rem);
+  max-width: 20rem;
+}
+
+@media (max-width: 720px) {
+  .aside {
+    justify-self: start;
+    max-width: none;
+  }
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.blockTitle {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: #fff;
+  margin: 0;
+}
+
+.block p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.accent {
+  color: var(--footer-accent);
+  text-decoration: none;
+}
+
+.accent:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.accent:focus-visible {
+  outline: 1px solid var(--footer-accent);
+  outline-offset: 3px;
+}
+
+.addressLine {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem 2rem;
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.25rem, 4vw, 2.25rem);
+}
+
+.socialLink {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+.socialLink:hover {
+  border-bottom-color: #fff;
+  color: #fff;
+}
+
+.socialLink:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 4px;
+}
+
+.legal {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.legal:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal:focus-visible {
+  outline: 1px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 3px;
+}

@@ -4,7 +4,7 @@ import styles from "./About.module.css";
 
 export default function About() {
   return (
-    <section className={styles.about}>
+    <section id="about" className={styles.about}>
       <Container className={styles.container}>
         <p className={styles.description}>
           Мы - команда операторов, моушн-дизайнеров, монтажеров и продюсеров. Мы можем разработать концепцию с нуля, а можем взять ваш готовый скрипт и просто грамотно его снять. Работаем по всей России и СНГ.

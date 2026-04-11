@@ -1,0 +1,144 @@
+.section {
+  --principles-line: rgba(255, 255, 255, 0.14);
+  --principles-cell-bg: var(--background);
+  position: relative;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.inner {
+  position: relative;
+}
+
+.heading {
+  margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
+  font-size: clamp(1.125rem, 2vw, 1.35rem);
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* 4 equal columns; 1px “hairlines” on every edge including outer perimeter */
+.gridBody {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+  border: 1px solid var(--principles-line);
+  background: var(--principles-line);
+}
+
+.cell {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  min-width: 0;
+  padding: clamp(1.35rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.75rem);
+  padding-right: clamp(1.75rem, 3vw, 2.5rem);
+  background: var(--principles-cell-bg);
+  /* Portrait tile: width : height = 3 : 4 → taller cells */
+  aspect-ratio: 3 / 4;
+}
+
+.rail {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: clamp(0.875rem, 1.5vw, 1.125rem);
+  pointer-events: none;
+}
+
+.vLabel {
+  position: absolute;
+  right: 0;
+  translate: 0 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.vLabelTop {
+  top: 8%;
+}
+
+.vLabelMid {
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.vLabelBot {
+  bottom: 8%;
+}
+
+.code {
+  grid-row: 1;
+  justify-self: start;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffffa6;
+  line-height: 1.2;
+}
+
+.title {
+  grid-row: 2;
+  align-self: center;
+  justify-self: center;
+  margin: 0;
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  padding-block: clamp(1rem, 2.5vw, 2rem);
+  width: 100%;
+}
+
+.desc {
+  grid-row: 3;
+  align-self: end;
+  justify-self: start;
+  margin: 0;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #ccc;
+  max-width: 36ch;
+}
+
+@media (max-width: 960px) {
+  .gridBody {
+    grid-template-columns: 1fr;
+  }
+
+  .cell {
+    aspect-ratio: auto;
+    min-height: clamp(260px, 48vw, 380px);
+    padding-right: clamp(1rem, 2vw, 1.75rem);
+  }
+
+  .rail {
+    display: none;
+  }
+
+  .title {
+    max-width: 22ch;
+  }
+
+  .desc {
+    max-width: none;
+  }
+}

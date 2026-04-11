@@ -1,7 +1,7 @@
 .hero {
   --hero-img-w: clamp(9rem, 22vw, 17rem);
   min-height: 100vh;
-  background-color: #1f1f1f;
+  /* background-color: #1f1f1f; */
   color: rgba(255, 255, 255, 0.92);
   --headline-gutter: clamp(0px, calc(25vw / 7 - 24px / 7), 48px);
 }
