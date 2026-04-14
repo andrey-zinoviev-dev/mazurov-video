@@ -10,15 +10,125 @@
   position: relative;
 }
 
+/* ——— Current layout: headline left, bordered list right ——— */
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.5fr) minmax(0, 1.35fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.headlineCol {
+  min-width: 0;
+}
+
 .heading {
-  margin: 0 0 clamp(1.25rem, 2.5vw, 2rem);
-  font-size: clamp(1.125rem, 2vw, 1.35rem);
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+  font-size: 24px;
   line-height: 1.2;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-/* 4 equal columns; 1px “hairlines” on every edge including outer perimeter */
+.intro {
+  margin: 0;
+  font-size: clamp(0.8125rem, 1.35vw, 0.9375rem);
+  line-height: 1.55;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 38ch;
+}
+
+.stagesList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+  border-top: 1px solid var(--principles-line);
+  border-bottom: 1px solid var(--principles-line);
+}
+
+.stageRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 0.5fr);
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  align-items: center;
+  padding-block: clamp(1.25rem, 2.8vw, 2rem);
+  border-bottom: 1px solid var(--principles-line);
+}
+
+.stageRow:last-child {
+  border-bottom: none;
+}
+
+.index {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #ffffffa6;
+  line-height: 1.2;
+  white-space: nowrap;
+  letter-spacing: .14em;
+}
+
+.stageTitle {
+  margin: 0;
+  font-size: 28px;
+  /* font-size: clamp(0.9375rem, 1.5vw, 1.0625rem); */
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.stageDesc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: right;
+  justify-self: end;
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  .intro {
+    max-width: none;
+  }
+
+  .stageRow {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.5rem clamp(0.75rem, 2vw, 1.25rem);
+    align-items: start;
+  }
+
+  .index {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+
+  .stageTitle {
+    grid-column: 2;
+  }
+
+  .stageDesc {
+    grid-column: 2;
+    text-align: left;
+    justify-self: start;
+  }
+}
+
+/* ——— Previous layout (4 equal columns + rails) ———
 .gridBody {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -40,7 +150,6 @@
   padding: clamp(1.35rem, 3vw, 2.5rem) clamp(1rem, 2vw, 1.75rem);
   padding-right: clamp(1.75rem, 3vw, 2.5rem);
   background: var(--principles-cell-bg);
-  /* Portrait tile: width : height = 3 : 4 → taller cells */
   aspect-ratio: 3 / 4;
 }
 
@@ -142,3 +251,4 @@
     max-width: none;
   }
 }
+——— end previous layout ——— */

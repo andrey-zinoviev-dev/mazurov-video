@@ -34,13 +34,14 @@ const COLUMNS: PrincipleColumn[] = [
   },
 ];
 
+/* Previous layout (4-column grid + rail labels) — kept for reference; may be restored later.
 const RAIL_LABELS = [
   { top: "AXIS_Y", mid: "GRID_DATA", bot: "PRN_STRUCT_01" },
   { top: "GRID_DATA", mid: "AXIS_Y", bot: "PRN_STRUCT_01" },
   { top: "PRN_STRUCT_01", mid: "GRID_DATA", bot: "AXIS_Y" },
 ] as const;
 
-export function Principles() {
+function PrinciplesPreviousLayout() {
   return (
     <section className={styles.section} aria-labelledby="principles-heading">
       <Container className={styles.inner}>
@@ -75,6 +76,42 @@ export function Principles() {
             </li>
           ))}
         </ul>
+      </Container>
+    </section>
+  );
+}
+*/
+
+export function Principles() {
+  return (
+    <section className={styles.section} aria-labelledby="principles-heading">
+      <Container className={styles.inner}>
+        <div className={styles.split}>
+          <header className={styles.headlineCol}>
+            <h2 id="principles-heading" className={styles.heading}>
+              Принципы работы
+            </h2>
+            
+          </header>
+          <div>
+            <p className={styles.intro}>
+              Каждый проект уникален и может иметь свои нюансы, поэтому детали
+              процесса мы подстраиваем под задачу.
+            </p>
+            <ul className={styles.stagesList}>
+            {COLUMNS.map((col, index) => (
+              <li key={col.code} className={styles.stageRow}>
+                <span className={styles.index} aria-hidden>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <h3 className={styles.stageTitle}>{col.title}</h3>
+                <p className={styles.stageDesc}>{col.description}</p>
+              </li>
+            ))}
+          </ul>
+          </div>
+          
+        </div>
       </Container>
     </section>
   );

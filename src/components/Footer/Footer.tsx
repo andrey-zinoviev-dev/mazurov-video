@@ -5,16 +5,16 @@ export function Footer() {
   return (
     <footer className={styles.root} id="footer">
       <Container className={styles.inner}>
-        <div className={styles.topBar}>
+        {/* <div className={styles.topBar}>
           <a href="#site-top" className={styles.close}>
             <span className={styles.closeLabel}>Close</span>
             <span className={styles.closeIcon} aria-hidden>
               ×
             </span>
           </a>
-        </div>
+        </div> */}
 
-        <div className={styles.main}>
+        {/* <div className={styles.main}>
           <nav className={styles.nav} aria-label="Основная навигация">
             <ul className={styles.navList}>
               <li>
@@ -55,9 +55,9 @@ export function Footer() {
               <p className={styles.addressLine}>New York, NY 10001</p>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className={styles.divider} role="presentation" />
+        {/* <div className={styles.divider} role="presentation" /> */}
 
         <div className={styles.bottom}>
           <div className={styles.socials}>
@@ -71,9 +71,9 @@ export function Footer() {
               instagram
             </a>
           </div>
-          <a href="/privacy" className={styles.legal}>
+          {/* <a href="/privacy" className={styles.legal}>
             Privacy Policy
-          </a>
+          </a> */}
         </div>
       </Container>
     </footer>
