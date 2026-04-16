@@ -3,5 +3,5 @@
   font-size: var(--meta-text-font-size, 12px);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--meta-text-color, rgba(255, 255, 255, 0.65));
 }

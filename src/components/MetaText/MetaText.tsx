@@ -7,5 +7,7 @@ export type MetaTextProps = {
 
 /** Uppercase mono caption; plain string only (no rich children). */
 export function MetaText({ text, className }: MetaTextProps) {
-  return <span className={`${styles.root} ${className}`}>{text}</span>;
+  return (
+    <span className={[styles.root, className].filter(Boolean).join(" ")}>{text}</span>
+  );
 }
