@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/Container/Container";
+import { MetaText } from "@/components/MetaText/MetaText";
+import { Headline } from "@/components/Typography/Headline";
 import styles from "./Projects.module.css";
 
 export type ProjectListItem = {
@@ -10,6 +12,8 @@ export type ProjectListItem = {
   description: string;
   imageSrc: string;
   imageAlt: string;
+  category: string;
+  contractor: string;
 };
 
 const DEFAULT_PROJECTS: ProjectListItem[] = [
@@ -21,6 +25,8 @@ const DEFAULT_PROJECTS: ProjectListItem[] = [
       "Съёмка офиса, команды и процессов для HR и презентаций. Собрали динамичный ролик с интервью и общими планами — заказчик использует материал на сайте и на конференциях.",
     imageSrc: "https://picsum.photos/seed/videoprod-p1/960/720",
     imageAlt: "",
+    category: "Корпоратив",
+    contractor: "Яндекс-еда",
   },
   {
     slug: "music-video",
@@ -30,6 +36,8 @@ const DEFAULT_PROJECTS: ProjectListItem[] = [
       "Концепт, локации, свет и постановка кадра под трек. Сжатые сроки на монтаж и цветокор — результат выложили в релиз в тот же месяц.",
     imageSrc: "https://picsum.photos/seed/videoprod-p2/960/720",
     imageAlt: "",
+    category: "Музыка",
+    contractor: "Яндекс-путешествия",
   },
   {
     slug: "product-launch",
@@ -39,6 +47,8 @@ const DEFAULT_PROJECTS: ProjectListItem[] = [
       "Тизер и основной ролик для презентации новой линейки: макро-съёмка, моушн и графика в едином стиле бренда.",
     imageSrc: "https://picsum.photos/seed/videoprod-p3/960/720",
     imageAlt: "",
+    category: "Реклама",
+    contractor: "Авито-недвижимость",
   },
 ];
 
@@ -50,9 +60,10 @@ export function Projects({ projects = DEFAULT_PROJECTS }: ProjectsProps) {
   return (
     <section id="projects" className={styles.section} aria-labelledby="projects-heading">
       <Container>
-        <h2 id="projects-heading">
+        <MetaText text="[ PROJECTS ]" className={styles.metaText} />
+        <Headline id="projects-heading" className={styles.heading}>
           Проекты
-        </h2>
+        </Headline>
         <ul className={styles.list}>
           {projects.map((project) => (
             <li key={project.slug}>
@@ -61,21 +72,16 @@ export function Projects({ projects = DEFAULT_PROJECTS }: ProjectsProps) {
                   <Image
                     className={styles.image}
                     src={project.imageSrc}
-                    alt={project.imageAlt}
+                    alt={project.imageAlt || project.title}
                     width={960}
-                    height={720}
-                    sizes="(max-width: 768px) 100vw, 42vw"
+                    height={540}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
-                <div className={styles.body}>
-                  <div className={styles.headerRow}>
-                    <h3 className={styles.title}>{project.title}</h3>
-                    <span className={styles.year}>{project.year}</span>
-                  </div>
-                  <p className={styles.description}>{project.description}</p>
-                  <span className={styles.arrow} aria-hidden>
-                    →
-                  </span>
+                <div className={styles.caption}>
+                  <h3 className={styles.title}>{project.title}</h3>
+                  <p className={styles.category}>{project.category}</p>
+                  <p className={styles.contractor}>{project.contractor}</p>
                 </div>
               </Link>
             </li>

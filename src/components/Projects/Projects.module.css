@@ -1,42 +1,35 @@
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .section {
   position: relative;
-  padding: clamp(64px, 12vw, 128px) 0;
-  background: var(--background);
-  color: var(--foreground);
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  background: #000;
+  color: #fff;
+}
+
+.metaText {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.heading {
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .list {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 3vw, 2rem);
 }
 
 .item {
-  display: grid;
-  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
-  gap: clamp(1.25rem, 4vw, 2.75rem);
-  align-items: stretch;
-  padding: clamp(1.5rem, 4vw, 2.75rem) 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   text-decoration: none;
   color: inherit;
   transition: opacity 0.2s ease;
-}
-
-.item:first-child {
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -48,10 +41,9 @@
 .imageWrap {
   position: relative;
   width: 100%;
-  min-height: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .image {
@@ -59,70 +51,44 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: grayscale(1);
 }
 
-.body {
+.caption {
+  margin-top: clamp(0.625rem, 1.5vw, 0.875rem);
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  min-height: 100%;
-}
-
-.headerRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+  gap: 0.15em;
+  text-align: left;
+  font-family: var(--font-headline), system-ui, sans-serif;
 }
 
 .title {
-  font-size: clamp(1rem, 2.1vw, 1.35rem);
-  line-height: 1.2;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   margin: 0;
-}
-
-.year {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.8125rem;
+  font-size: clamp(1rem, 2vw, 1.125rem);
   font-weight: 500;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.55);
-  flex-shrink: 0;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
-.description {
+.category,
+.contractor {
   margin: 0;
-  font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
-  line-height: 1.55;
-  color: rgba(255, 255, 255, 0.62);
-  max-width: 52ch;
+  font-size: clamp(0.9375rem, 1.75vw, 1rem);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.82);
 }
 
-.arrow {
-  margin-top: auto;
-  align-self: flex-end;
-  padding-top: 1.25rem;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: rgba(255, 255, 255, 0.85);
+.contractor {
+  color: rgba(255, 255, 255, 0.65);
 }
 
 @media (max-width: 768px) {
-  .item {
+  .list {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .imageWrap {
-    aspect-ratio: 16 / 10;
-    max-height: none;
-  }
-
-  .description {
-    max-width: none;
+    gap: clamp(1.75rem, 5vw, 2.5rem);
   }
 }

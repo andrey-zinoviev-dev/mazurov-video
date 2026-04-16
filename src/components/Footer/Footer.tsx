@@ -1,10 +1,12 @@
 import { Container } from "@/components/Container/Container";
+import { MetaText } from "@/components/MetaText/MetaText";
 import styles from "./Footer.module.css";
 
 export function Footer() {
   return (
     <footer className={styles.root} id="footer">
       <Container className={styles.inner}>
+        {/* <MetaText text="[ CONTACT ]" className={styles.metaText} /> */}
         {/* <div className={styles.topBar}>
           <a href="#site-top" className={styles.close}>
             <span className={styles.closeLabel}>Close</span>

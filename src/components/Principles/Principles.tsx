@@ -1,116 +1,98 @@
+import Image from "next/image";
 import { Container } from "@/components/Container/Container";
+import { MetaText } from "@/components/MetaText/MetaText";
+import { Headline } from "@/components/Typography/Headline";
+import { Paragraph } from "@/components/Typography/Paragraph";
 import styles from "./Principles.module.css";
 
-type PrincipleColumn = {
+type Principle = {
   code: string;
   title: string;
   description: string;
+  /** Same URL is used for the sharp image (left) and blurred background (right). */
+  imageSrc: string;
 };
 
-const COLUMNS: PrincipleColumn[] = [
+const COLUMNS: Principle[] = [
   {
     code: "PRN_001",
     title: "Исключение случайностей",
     description:
       "70% работы на этапе препродакшена. Вы знаете, что будет в кадре еще до съемок.",
+    imageSrc: "https://picsum.photos/seed/mzv-prn-01/900/600",
   },
   {
     code: "PRN_002",
     title: "Жесткая смета",
     description:
       "Бюджет фиксируется в договоре. Итоговая стоимость не вырастет ни на рубль.",
+    imageSrc: "https://picsum.photos/seed/mzv-prn-02/900/600",
   },
   {
     code: "PRN_003",
     title: "Дисциплина таймлайна",
     description:
       "Черновая сборка и финальный мастер строго по графику. Понимаем дедлайны.",
+    imageSrc: "https://picsum.photos/seed/mzv-prn-03/900/600",
   },
   {
     code: "PRN_004",
     title: "Повторный выбор",
     description:
       "90% наших клиентов работают с нами годами. Проектируем процессы надолго.",
+    imageSrc: "https://picsum.photos/seed/mzv-prn-04/900/600",
   },
 ];
-
-/* Previous layout (4-column grid + rail labels) — kept for reference; may be restored later.
-const RAIL_LABELS = [
-  { top: "AXIS_Y", mid: "GRID_DATA", bot: "PRN_STRUCT_01" },
-  { top: "GRID_DATA", mid: "AXIS_Y", bot: "PRN_STRUCT_01" },
-  { top: "PRN_STRUCT_01", mid: "GRID_DATA", bot: "AXIS_Y" },
-] as const;
-
-function PrinciplesPreviousLayout() {
-  return (
-    <section className={styles.section} aria-labelledby="principles-heading">
-      <Container className={styles.inner}>
-        <h2 id="principles-heading" className={styles.heading}>
-          Принципы работы
-        </h2>
-        <ul className={styles.gridBody}>
-          {COLUMNS.map((col, index) => (
-            <li key={col.code} className={styles.cell}>
-              {index < RAIL_LABELS.length ? (
-                <div className={styles.rail} aria-hidden>
-                  <span
-                    className={`${styles.vLabel} ${styles.vLabelTop}`}
-                  >
-                    {RAIL_LABELS[index].top}
-                  </span>
-                  <span
-                    className={`${styles.vLabel} ${styles.vLabelMid}`}
-                  >
-                    {RAIL_LABELS[index].mid}
-                  </span>
-                  <span
-                    className={`${styles.vLabel} ${styles.vLabelBot}`}
-                  >
-                    {RAIL_LABELS[index].bot}
-                  </span>
-                </div>
-              ) : null}
-              <span className={styles.code}>{col.code}</span>
-              <h3 className={styles.title}>{col.title}</h3>
-              <p className={styles.desc}>{col.description}</p>
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </section>
-  );
-}
-*/
 
 export function Principles() {
   return (
     <section className={styles.section} aria-labelledby="principles-heading">
       <Container className={styles.inner}>
+        <MetaText text="[ OUR PRINCIPLES ]" className={styles.metaText} />
         <div className={styles.split}>
           <header className={styles.headlineCol}>
-            <h2 id="principles-heading" className={styles.heading}>
+            <Headline id="principles-heading" className={styles.heading}>
               Принципы работы
-            </h2>
-            
+            </Headline>
           </header>
-          <div>
-            <p className={styles.intro}>
+          <div className={styles.contentCol}>
+            <Paragraph className={styles.intro}>
               Каждый проект уникален и может иметь свои нюансы, поэтому детали
               процесса мы подстраиваем под задачу.
-            </p>
-            <ul className={styles.stagesList}>
-            {COLUMNS.map((col, index) => (
-              <li key={col.code} className={styles.stageRow}>
-                <span className={styles.index} aria-hidden>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className={styles.stageTitle}>{col.title}</h3>
-                <p className={styles.stageDesc}>{col.description}</p>
-              </li>
-            ))}
-          </ul>
+            </Paragraph>
+            <ul className={styles.cards}>
+              {COLUMNS.map((col, index) => (
+                <li key={col.code} className={styles.card}>
+                  <div className={styles.imageSide}>
+                    <Image
+                      src={col.imageSrc}
+                      alt=""
+                      fill
+                      sizes="(max-width: 900px) 100vw, 35vw"
+                      className={styles.image}
+                      priority={index === 0}
+                    />
+                    {/* <span className={styles.badge} aria-hidden>
+                      {col.code.replace("_", " ")}
+                    </span> */}
+                  </div>
+                  <div className={styles.textSide}>
+                    <div
+                      className={styles.blurBg}
+                      style={{ backgroundImage: `url(${col.imageSrc})` }}
+                      aria-hidden
+                    />
+                    <div className={styles.textDim} aria-hidden />
+                    <div className={styles.textInner}>
+                      <p className={styles.code}>{col.code}</p>
+                      <h3 className={styles.cardTitle}>{col.title}</h3>
+                      <p className={styles.cardDesc}>{col.description}</p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-          
         </div>
       </Container>
     </section>

@@ -1,0 +1,14 @@
+.headline {
+  margin: 0;
+  font-size: 36px;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.paragraph {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.55;
+  opacity: 0.75;
+}

@@ -4,7 +4,30 @@
 
 .container {
     display: grid;
-    gap: 24px;
+    gap: 0;
+}
+
+.metaText {
+    margin-bottom: 24px;
+    display: inline-block;
+}
+
+.headline {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2em;
+    max-width: 1024px;
+    margin-bottom: 32px;
+    line-height: 1.15;
+}
+
+.headlineLine {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.headlineHighlight {
+    color: rgba(255, 255, 255, 1);
 }
 
 .description {
