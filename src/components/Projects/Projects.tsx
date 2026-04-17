@@ -80,8 +80,11 @@ export function Projects({ projects = DEFAULT_PROJECTS }: ProjectsProps) {
                 </div>
                 <div className={styles.caption}>
                   <h3 className={styles.title}>{project.title}</h3>
-                  <p className={styles.category}>{project.category}</p>
-                  <p className={styles.contractor}>{project.contractor}</p>
+                  <p className={styles.contractor}>
+                    {[project.category, project.contractor].join(", ")}
+                    {project.year ? ` · ${project.year}` : ""}
+                  </p>
+                  <p className={styles.description}>{project.description}</p>
                 </div>
               </Link>
             </li>

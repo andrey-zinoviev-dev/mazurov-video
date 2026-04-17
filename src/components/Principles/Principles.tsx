@@ -46,7 +46,11 @@ const COLUMNS: Principle[] = [
 
 export function Principles() {
   return (
-    <section className={styles.section} aria-labelledby="principles-heading">
+    <section
+      id="principles"
+      className={styles.section}
+      aria-labelledby="principles-heading"
+    >
       <Container className={styles.inner}>
         <MetaText text="[ OUR PRINCIPLES ]" className={styles.metaText} />
         <div className={styles.split}>
