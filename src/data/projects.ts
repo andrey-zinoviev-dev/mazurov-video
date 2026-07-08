@@ -4,6 +4,8 @@ export type Project = {
   year: string;
   imageSrc: string;
   imageAlt: string;
+  /** Опциональный короткий луп для ховера (только десктоп). */
+  hoverVideoSrc?: string;
   contractor: string;
   budget: string;
   shootingType: string;
@@ -18,8 +20,9 @@ const PROJECTS: Project[] = [
     slug: "yam-session-2024",
     title: "YAM Session 2024",
     year: "2024",
-    imageSrc: "https://picsum.photos/seed/videoprod-p1/1600/900",
+    imageSrc: "/Screenshot 2026-07-07 at 17.38.57.png",
     imageAlt: "",
+    hoverVideoSrc: "/0708.mp4",
     contractor: "Яндекс Музыка",
     budget: "3,5 млн ₽",
     shootingType: "Запись и монтаж лайв-выступления",
@@ -35,8 +38,9 @@ const PROJECTS: Project[] = [
     slug: "kulturny-marafon-2025",
     title: "Культурный Марафон 2025",
     year: "2025",
-    imageSrc: "/2026-07-08_04-46-55.png",
+    imageSrc: "/2026-07-09_01-18-05.png",
     imageAlt: "",
+    hoverVideoSrc: "/culture-marathon.mp4",
     contractor: "Минкульт РФ × Яндекс Книги",
     budget: "7 млн ₽",
     shootingType: "Постановочные съёмки",
@@ -54,6 +58,7 @@ const PROJECTS: Project[] = [
     year: "",
     imageSrc: "/2026-07-08_04-28-40.png",
     imageAlt: "",
+    hoverVideoSrc: "/bookmate.mp4",
     contractor: "Яндекс Книги",
     budget: "2,5 млн ₽",
     shootingType: "Постановочные съёмки",
@@ -65,29 +70,31 @@ const PROJECTS: Project[] = [
       "Адаптации под разные площадки",
     ],
   },
-  {
-    slug: "reklama-yandex-uchebnik",
-    title: "Реклама Яндекс Учебника",
-    year: "",
-    imageSrc: "https://picsum.photos/seed/videoprod-p1/1600/900",
-    imageAlt: "",
-    contractor: "Яндекс Образование",
-    budget: "6,5 млн ₽",
-    shootingType: "Постановочные съёмки",
-    description:
-      "Имиджевая рекламная кампания для Яндекс Учебника. Постановочные съёмки в нескольких локациях и производство серии роликов для образовательной аудитории.",
-    deliverables: [
-      "Съёмки в нескольких локациях",
-      "Серия рекламных роликов",
-      "Цветокоррекция и графика",
-    ],
-  },
+  // {
+  //   slug: "reklama-yandex-uchebnik",
+  //   title: "Реклама Яндекс Учебника",
+  //   year: "",
+  //   imageSrc: "/yandex-study.png",
+  //   imageAlt: "",
+  //   hoverVideoSrc: "/yandex-study.mp4",
+  //   contractor: "Яндекс Образование",
+  //   budget: "6,5 млн ₽",
+  //   shootingType: "Постановочные съёмки",
+  //   description:
+  //     "Имиджевая рекламная кампания для Яндекс Учебника. Постановочные съёмки в нескольких локациях и производство серии роликов для образовательной аудитории.",
+  //   deliverables: [
+  //     "Съёмки в нескольких локациях",
+  //     "Серия рекламных роликов",
+  //     "Цветокоррекция и графика",
+  //   ],
+  // },
   {
     slug: "nasledie-korolya-i-shuta",
     title: "Документальный фильм «Наследие Короля и Шута»",
     year: "",
     imageSrc: "/2026-07-08_04-40-59.png",
     imageAlt: "",
+    hoverVideoSrc: "/kingandjester.mp4",
     contractor: "Кинопоиск",
     budget: "1,5 млн ₽",
     shootingType: "Документальный фильм",
@@ -99,29 +106,30 @@ const PROJECTS: Project[] = [
       "Монтаж полнометражной версии",
     ],
   },
-  {
-    slug: "live-koncerty-plyus-dacha",
-    title: "Лайв-концерты артистов на Плюс Даче",
-    year: "",
-    imageSrc: "https://picsum.photos/seed/videoprod-p3/1600/900",
-    imageAlt: "",
-    contractor: "Яндекс",
-    budget: "2,5 млн ₽",
-    shootingType: "Лайв-съёмки",
-    description:
-      "Серия лайв-концертов на Плюс Даче: многокамерная съёмка выступлений разных артистов и оперативный монтаж контента для публикации.",
-    deliverables: [
-      "Многокамерная лайв-съёмка",
-      "Запись и сведение звука",
-      "Оперативный монтаж контента",
-    ],
-  },
+  // {
+  //   slug: "live-koncerty-plyus-dacha",
+  //   title: "Лайв-концерты артистов на Плюс Даче",
+  //   year: "",
+  //   imageSrc: "https://picsum.photos/seed/videoprod-p3/1600/900",
+  //   imageAlt: "",
+  //   contractor: "Яндекс",
+  //   budget: "2,5 млн ₽",
+  //   shootingType: "Лайв-съёмки",
+  //   description:
+  //     "Серия лайв-концертов на Плюс Даче: многокамерная съёмка выступлений разных артистов и оперативный монтаж контента для публикации.",
+  //   deliverables: [
+  //     "Многокамерная лайв-съёмка",
+  //     "Запись и сведение звука",
+  //     "Оперативный монтаж контента",
+  //   ],
+  // },
   {
     slug: "avito-puteshestviya-conference",
     title: "Онлайн-конференция Авито Путешествия",
     year: "",
-    imageSrc: "https://picsum.photos/seed/videoprod-p1/1600/900",
+    imageSrc: "/2026-07-09_00-35-00.png",
     imageAlt: "",
+    hoverVideoSrc: "/avitotravel.mp4",
     contractor: "Авито",
     budget: "1,5 млн ₽",
     shootingType: "Прямая трансляция",

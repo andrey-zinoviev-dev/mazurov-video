@@ -4,6 +4,7 @@ import { Container } from "@/components/Container/Container";
 import { MetaText } from "@/components/MetaText/MetaText";
 import { Headline } from "@/components/Typography/Headline";
 import { getAllProjects, type Project } from "@/data/projects";
+import { ProjectCover } from "./ProjectCover";
 import styles from "./Projects.module.css";
 
 type ProjectsProps = {
@@ -22,18 +23,7 @@ export function Projects({ projects = getAllProjects() }: ProjectsProps) {
           {projects.map((project) => (
             <li key={project.slug}>
               <Link href={`/projects/${project.slug}`} className={styles.item}>
-                <div className={styles.imageWrap}>
-                  <Image
-                    className={styles.image}
-                    src={project.imageSrc}
-                    alt={project.imageAlt || project.title}
-                    width={960}
-                    height={540}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                                      {/* <span className={styles.chip}>{project.shootingType}</span> */}
-
-                </div>
+                <ProjectCover project={project} />
                 <div className={styles.caption}>
                   <div className={styles.titleRow}>
                     <h3 className={styles.title}>{project.title}</h3>
@@ -51,7 +41,7 @@ export function Projects({ projects = getAllProjects() }: ProjectsProps) {
                     {project.year ? ` · ${project.year}` : ""}
                   </p>
                   <p className={styles.shootingType}>{project.shootingType}</p>
-                  <p className={styles.budget}>{project.budget}</p>
+                  {/* <p className={styles.budget}>{project.budget}</p> */}
                 </div>
               </Link>
             </li>
