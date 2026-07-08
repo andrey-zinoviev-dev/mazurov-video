@@ -3,60 +3,14 @@ import Link from "next/link";
 import { Container } from "@/components/Container/Container";
 import { MetaText } from "@/components/MetaText/MetaText";
 import { Headline } from "@/components/Typography/Headline";
+import { getAllProjects, type Project } from "@/data/projects";
 import styles from "./Projects.module.css";
 
-export type ProjectListItem = {
-  slug: string;
-  title: string;
-  year: string;
-  description: string;
-  imageSrc: string;
-  imageAlt: string;
-  category: string;
-  contractor: string;
-};
-
-const DEFAULT_PROJECTS: ProjectListItem[] = [
-  {
-    slug: "reel-corporate",
-    title: "Корпоративный имидж",
-    year: "2025",
-    description:
-      "Съёмка офиса, команды и процессов для HR и презентаций. Собрали динамичный ролик с интервью и общими планами — заказчик использует материал на сайте и на конференциях.",
-    imageSrc: "https://picsum.photos/seed/videoprod-p1/960/720",
-    imageAlt: "",
-    category: "Корпоратив",
-    contractor: "Яндекс-еда",
-  },
-  {
-    slug: "music-video",
-    title: "Клип для артиста",
-    year: "2024",
-    description:
-      "Концепт, локации, свет и постановка кадра под трек. Сжатые сроки на монтаж и цветокор — результат выложили в релиз в тот же месяц.",
-    imageSrc: "https://picsum.photos/seed/videoprod-p2/960/720",
-    imageAlt: "",
-    category: "Музыка",
-    contractor: "Яндекс-путешествия",
-  },
-  {
-    slug: "product-launch",
-    title: "Запуск продукта",
-    year: "2024",
-    description:
-      "Тизер и основной ролик для презентации новой линейки: макро-съёмка, моушн и графика в едином стиле бренда.",
-    imageSrc: "https://picsum.photos/seed/videoprod-p3/960/720",
-    imageAlt: "",
-    category: "Реклама",
-    contractor: "Авито-недвижимость",
-  },
-];
-
 type ProjectsProps = {
-  projects?: ProjectListItem[];
+  projects?: Project[];
 };
 
-export function Projects({ projects = DEFAULT_PROJECTS }: ProjectsProps) {
+export function Projects({ projects = getAllProjects() }: ProjectsProps) {
   return (
     <section id="projects" className={styles.section} aria-labelledby="projects-heading">
       <Container>
@@ -77,14 +31,27 @@ export function Projects({ projects = DEFAULT_PROJECTS }: ProjectsProps) {
                     height={540}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
+                                      {/* <span className={styles.chip}>{project.shootingType}</span> */}
+
                 </div>
                 <div className={styles.caption}>
-                  <h3 className={styles.title}>{project.title}</h3>
+                  <div className={styles.titleRow}>
+                    <h3 className={styles.title}>{project.title}</h3>
+                    <Image
+                      className={styles.arrow}
+                      src="/arrow.svg"
+                      alt=""
+                      width={40}
+                      height={40}
+                      aria-hidden
+                    />
+                  </div>
                   <p className={styles.contractor}>
-                    {[project.category, project.contractor].join(", ")}
+                    {project.contractor}
                     {project.year ? ` · ${project.year}` : ""}
                   </p>
-                  <p className={styles.description}>{project.description}</p>
+                  <p className={styles.shootingType}>{project.shootingType}</p>
+                  <p className={styles.budget}>{project.budget}</p>
                 </div>
               </Link>
             </li>

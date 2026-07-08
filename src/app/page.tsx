@@ -13,7 +13,7 @@ export default function Home() {
       <About />
       {/* <div id="resume" aria-hidden="true" /> */}
       <Projects />
-      <Principles />
+      {/* <Principles /> */}
       <Services />
       <Contacts />
       {/* <div id="news" aria-hidden="true" /> */}
