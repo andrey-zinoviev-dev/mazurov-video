@@ -9,7 +9,6 @@ export function Hero() {
         src="/0723.mp4"
         autoPlay
         muted
-        loop
         playsInline
         preload="auto"
         aria-hidden
@@ -34,7 +33,7 @@ export function Hero() {
               <span className={styles.playIcon} aria-hidden>
                 ▶
               </span>
-              Смотреть проекты
+              Смотреть портфолио
             </a>
           </div>
         </div>

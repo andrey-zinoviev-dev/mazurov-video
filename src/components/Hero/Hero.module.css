@@ -51,8 +51,8 @@
   /* border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: clamp(0.65rem, 1.4vw, 1.1rem);
   background: rgba(8, 8, 8, 0.28); */
-  backdrop-filter: blur(10px) saturate(1.05);
-  -webkit-backdrop-filter: blur(10px) saturate(1.05);
+  /* backdrop-filter: blur(10px) saturate(1.05);
+  -webkit-backdrop-filter: blur(10px) saturate(1.05); */
   animation: frameIn 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
