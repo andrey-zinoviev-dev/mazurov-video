@@ -3,37 +3,54 @@
 import { useSyncExternalStore } from "react";
 import styles from "./Hero.module.css";
 
-const MOBILE_MQ = "(max-width: 640px)";
+const DESKTOP_MQ = "(min-width: 641px)";
 
-function subscribeMobile(onChange: () => void) {
-  const mq = window.matchMedia(MOBILE_MQ);
+type HeroVideoProps = {
+  className?: string;
+  /** Mount only from 641px and up */
+  desktopOnly?: boolean;
+  /** Enable loop on mobile viewports */
+  loopOnMobile?: boolean;
+};
+
+function subscribeDesktop(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_MQ);
   mq.addEventListener("change", onChange);
   return () => mq.removeEventListener("change", onChange);
 }
 
-function getMobileSnapshot() {
-  return window.matchMedia(MOBILE_MQ).matches;
+function getDesktopSnapshot() {
+  return window.matchMedia(DESKTOP_MQ).matches;
 }
 
 function getServerSnapshot() {
   return false;
 }
 
-export function HeroVideo() {
-  const isMobile = useSyncExternalStore(
-    subscribeMobile,
-    getMobileSnapshot,
+export function HeroVideo({
+  className,
+  desktopOnly = false,
+  loopOnMobile = false,
+}: HeroVideoProps) {
+  const isDesktop = useSyncExternalStore(
+    subscribeDesktop,
+    getDesktopSnapshot,
     getServerSnapshot,
   );
 
+  if (desktopOnly && !isDesktop) {
+    return null;
+  }
+
   return (
     <video
-      className={styles.video}
+      className={className ?? styles.video}
       src="/0723.mp4"
       autoPlay
       muted
       playsInline
-      loop={isMobile}
+      // loop={loopOnMobile && !isDesktop}
+      loop
       preload="auto"
       aria-hidden
     />
