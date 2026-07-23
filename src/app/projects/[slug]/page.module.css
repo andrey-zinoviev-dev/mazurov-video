@@ -173,7 +173,7 @@
 @media (max-width: 900px) {
   .title {
     max-width: 100%;
-    font-size: clamp(24px, 5vw, 3.25rem);
+    font-size: clamp(28px, 5vw, 3.25rem);
   }
 
   .metaBar,
