@@ -1,18 +1,11 @@
 import { MetaText } from "@/components/MetaText/MetaText";
+import { HeroVideo } from "./HeroVideo";
 import styles from "./Hero.module.css";
 
 export function Hero() {
   return (
     <section className={styles.hero} aria-label="Главный экран">
-      <video
-        className={styles.video}
-        src="/0723.mp4"
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden
-      />
+      <HeroVideo />
       <div className={styles.scrim} aria-hidden />
 
       <div className={styles.frame}>
