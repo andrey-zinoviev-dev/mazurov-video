@@ -191,9 +191,6 @@
 }
 
 @media (max-width: 640px) {
-  .hero {
-    min-height: 85dvh;
-  }
 
   .frame {
     gap: 12px;
