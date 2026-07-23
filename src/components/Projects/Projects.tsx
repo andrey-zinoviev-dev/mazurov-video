@@ -27,6 +27,7 @@ export function Projects({ projects = getAllProjects() }: ProjectsProps) {
                 <div className={styles.caption}>
                   <div className={styles.titleRow}>
                     <h3 className={styles.title}>{project.title}</h3>
+
                     <Image
                       className={styles.arrow}
                       src="/arrow.svg"
@@ -36,11 +37,13 @@ export function Projects({ projects = getAllProjects() }: ProjectsProps) {
                       aria-hidden
                     />
                   </div>
+                  {/* <p>{project.description}</p> */}
                   <p className={styles.contractor}>
                     {project.contractor}
                     {project.year ? ` · ${project.year}` : ""}
                   </p>
                   <p className={styles.shootingType}>{project.shootingType}</p>
+
                   {/* <p className={styles.budget}>{project.budget}</p> */}
                 </div>
               </Link>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Golos_Text, IBM_Plex_Mono, Roboto_Condensed } from "next/font/google";
 import { AppHeader } from "@/components/AppHeader/AppHeader";
 import "./globals.css";
+import { Footer } from "@/components/Footer/Footer";
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin", "cyrillic"],
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body className={golosText.className}>
         <AppHeader />
         {children}
+        <Footer />
       </body>
     </html>
   );

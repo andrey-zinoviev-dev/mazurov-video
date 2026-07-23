@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
+import { LogoLink } from "@/components/LogoLink/LogoLink";
 import styles from "./AppHeader.module.css";
 
 const HEADER_OFFSET_VAR = "--app-header-offset";
@@ -11,7 +11,7 @@ const HEADER_OFFSET_VAR = "--app-header-offset";
 const NAV_ITEMS = [
   { href: "/#about", label: "О нас" },
   { href: "/#projects", label: "Проекты" },
-  { href: "/#principles", label: "Принципы" },
+  { href: "https://mazurov-rental.ru", label: "Аренда оборудования", target: "_blank" },
   { href: "/#contact", label: "Контакты" },
 ] as const;
 
@@ -106,19 +106,10 @@ export function AppHeader() {
         ref={headerRef}
         className={`${styles.root} ${isScrolled ? styles.scrolled : ""}`}
       >
-        <Link href="/" className={styles.logoMark} aria-label="На главную">
-          <Image
-            src="/MAZUROV%20LOGO.svg"
-            alt=""
-            width={783}
-            height={620}
-            className={styles.logoImage}
-            priority
-          />
-        </Link>
+        <LogoLink priority />
         <nav className={styles.navDesktop} aria-label="Разделы страницы">
-          {NAV_ITEMS.map((item) => (
-            <Link key={item.href} href={item.href} className={styles.navDesktopLink}>
+          {NAV_ITEMS.map((item: { href: string; label: string; target?: string }) => (
+            <Link key={item.href} href={item.href} className={styles.navDesktopLink} target={item.target || undefined}>
               {item.label}
             </Link>
           ))}

@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: clamp(1rem, 3vw, 1.75rem) clamp(1.25rem, 4vw, 2.5rem);
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 4vw, 3rem);
   font-size: 0.6875rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -20,24 +20,6 @@
 .scrolled {
   background: rgba(10, 10, 10, 0.92);
   /* backdrop-filter: blur(4px); */
-}
-
-.logoMark {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  line-height: 0;
-  color: inherit;
-  text-decoration: none;
-}
-
-.logoImage {
-  height: 1.25rem;
-  width: auto;
-  display: block;
-  /* Near-white mark: keep readable on bright frames behind transparent header */
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.55))
-    drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
 
 .navDesktop {
@@ -52,10 +34,10 @@
 
 .navDesktopLink {
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 0.6875rem;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.12em;
-  text-transform: uppercase;
+  text-transform: lowercase;
   color: inherit;
   text-decoration: none;
 }

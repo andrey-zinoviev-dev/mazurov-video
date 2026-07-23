@@ -28,7 +28,10 @@ export function Contacts() {
           </header>
 
           <div className={styles.contentCol}>
-            <Paragraph>Узнайте о наших услугах и посмотрите портфолио — поймёте, как мы можем помочь с вашим видео.</Paragraph>
+            <Paragraph className={styles.body}>
+              Мы всегда на прямой связи с нашими заказчиками. Расскажите нам о вашей идее, и мы
+              вместе ее реализуем.
+            </Paragraph>
 
             <div className={styles.contactLines}>
               <a

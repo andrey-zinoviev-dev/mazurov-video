@@ -89,7 +89,7 @@
   display: grid;
   grid-template-columns: var(--project-layout-cols);
   gap: var(--project-layout-gap);
-  align-items: center;
+  align-items: flex-end;
 }
 
 .imageWrap {
@@ -171,18 +171,23 @@
 }
 
 @media (max-width: 900px) {
+  .title {
+    max-width: 100%;
+    font-size: clamp(24px, 5vw, 3.25rem);
+  }
+
   .metaBar,
   .hero {
     grid-template-columns: 1fr;
   }
 
   .metaBarGroup {
+    flex-direction: column;
     justify-content: flex-start;
     gap: clamp(1rem, 3vw, 2rem);
   }
 
   .metaBarValue {
     text-align: left;
-    margin-left: auto;
   }
 }
