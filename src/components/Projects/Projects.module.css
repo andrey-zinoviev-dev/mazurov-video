@@ -1,6 +1,6 @@
 .section {
   position: relative;
-  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  padding-top: clamp(3.5rem, 8vw, 6rem);
   /* background: #000; */
   color: #fff;
 }

@@ -1,17 +1,19 @@
 .hero {
   --hero-line: rgba(255, 255, 255, 0.28);
-  --hero-pad-x: clamp(1.15rem, 3.5vw, 2.5rem);
 
   position: relative;
   isolation: isolate;
+  box-sizing: border-box;
+  height: 100vh;
+  height: 100dvh;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
+  flex-direction: column;
   align-items: stretch;
-  justify-content: center;
   padding:
     calc(clamp(3.75rem, 8vh, 5rem) + 0.35rem)
-    var(--hero-pad-x)
+    0
     clamp(1rem, 2.5vh, 1.75rem);
   color: rgba(255, 255, 255, 0.94);
   background: #000;
@@ -19,11 +21,11 @@
 }
 
 .board {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
   width: 100%;
-  max-width: 78rem;
-  min-height: calc(100dvh - clamp(5rem, 11vh, 7rem));
-  margin: 0 auto;
 }
 
 .stage {
@@ -31,9 +33,9 @@
   grid-template-rows: 1fr auto auto auto 1fr;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
   width: 100%;
-  height: 100%;
-  min-height: inherit;
 }
 
 .vline {
@@ -76,7 +78,7 @@
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
-  background: #0a0a0a;
+  /* background: #0a0a0a; */
 }
 
 .videoBottom {
@@ -95,6 +97,22 @@
   object-position: center;
   pointer-events: none;
   filter: grayscale(0.25) contrast(1.04);
+  display: block;
+  
+  /* 1. Математически исключает черный цвет (0,0,0) из рендера */
+  mix-blend-mode: screen;
+  
+    /* 2. Давит сжатый серый шум кодека (RGB 15,15,15) до чистого #000000, 
+       чтобы mix-blend-mode сработал корректно */
+    filter: contrast(140%) brightness(80%);
+  
+    /* 3. Гасит физические края видеокадра, где вспышка срезана прямой линией */
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at center,
+        black 20%,
+        transparent 75%);
+    mask-image: radial-gradient(ellipse 70% 60% at center,
+        black 20%,
+        transparent 75%);
 }
 
 .axis {
@@ -175,16 +193,15 @@
 }
 
 .footer {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
   width: 100%;
+  margin-top: clamp(1rem, 2.5vh, 1.75rem);
   animation: fadeUp 900ms cubic-bezier(0.22, 1, 0.36, 1) 160ms both;
 }
 
@@ -221,7 +238,7 @@
 
 .subhead {
   margin: 0;
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
   font-weight: 400;
   line-height: 1.45;
@@ -286,17 +303,14 @@
 
 @media (max-width: 640px) {
   .hero {
+    height: auto;
     padding-bottom: 1.25rem;
   }
 
   .board {
-    min-height: calc(100dvh - clamp(5rem, 11vh, 7rem));
-    display: flex;
-    flex-direction: column;
     justify-content: flex-end;
     gap: 1.25rem;
     padding-top: 1.25rem;
-    padding-bottom: 0;
   }
 
   .stage {
@@ -304,8 +318,7 @@
     flex-direction: column;
     align-items: stretch;
     gap: 1.15rem;
-    min-height: 0;
-    height: auto;
+    flex: 0 1 auto;
     margin: auto 0;
   }
 
@@ -397,7 +410,6 @@
   }
 
   .footer {
-    position: static;
     flex-direction: column;
     align-items: stretch;
     gap: 1.25rem;
@@ -414,6 +426,39 @@
     justify-content: space-between;
     width: 100%;
     gap: 1rem;
+  }
+}
+
+/* —— Showreel section —— */
+.showreel {
+  position: relative;
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
+  color: #fff;
+}
+
+.showreelMeta {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.showreelVideoWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.showreelVideo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .showreelVideoWrap {
+    aspect-ratio: 1 / 1;
   }
 }
 
