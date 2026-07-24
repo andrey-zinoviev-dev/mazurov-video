@@ -24,7 +24,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: "Video production",
-  description: "Видеопродакшен полного цикла",
+  description: "Видеопродакшн полного цикла",
 };
 
 export default function RootLayout({
@@ -39,7 +39,9 @@ export default function RootLayout({
     >
       <body className={golosText.className}>
         <AppHeader />
-        {children}
+        <main id="site-top">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

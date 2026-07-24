@@ -40,83 +40,68 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  // const secondaryDetails = [
-  //   { label: "Бюджет", value: project.budget },
-  //   ...(project.year ? [{ label: "Год", value: project.year }] : []),
-  // ];
-
   return (
-    <main className={styles.main}>
+    <section className={styles.project} aria-label={project.title}>
       <Container>
-        <Link href="/#projects" className={styles.backLink}>
-          <Image
-            className={styles.backArrow}
-            src="/arrow.svg"
-            alt=""
-            width={20}
-            height={20}
-            aria-hidden
-          />
-          Все проекты
-        </Link>
-
-        {/* <MetaText text="[ PROJECT ]" className={styles.metaText} /> */}
-        <h1 className={styles.title}>{project.title}</h1>
-
-        <div className={styles.metaBar}>
-          <div className={styles.metaBarGroup}>
-            <MetaText text="Заказчик" className={styles.metaBarLabel} />
-            <span className={styles.metaBarValue}>{project.contractor}</span>
-          </div>
-          <div className={styles.metaBarGroup}>
-            <MetaText text="Тип съёмки" className={styles.metaBarLabel} />
-            <span className={styles.metaBarValue}>{project.shootingType}</span>
-          </div>
-        </div>
-
-        <div className={styles.hero}>
-          <div className={styles.imageWrap}>
+        <div className={styles.inner}>
+          <Link href="/#projects" className={styles.backLink}>
             <Image
-              className={styles.image}
-              src={project.imageSrc}
-              alt={project.imageAlt || project.title}
-              width={1600}
-              height={900}
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              priority
+              className={styles.backArrow}
+              src="/arrow.svg"
+              alt=""
+              width={20}
+              height={20}
+              aria-hidden
             />
+            Все проекты
+          </Link>
+
+          <h2 className={styles.title}>{project.title}</h2>
+
+          <div className={styles.metaBar}>
+            <div className={styles.metaBarGroup}>
+              <MetaText text="Заказчик" className={styles.metaBarLabel} />
+              <span className={styles.metaBarValue}>{project.contractor}</span>
+            </div>
+            <div className={styles.metaBarGroup}>
+              <MetaText text="Тип съёмки" className={styles.metaBarLabel} />
+              <span className={styles.metaBarValue}>{project.shootingType}</span>
+            </div>
           </div>
 
-          <div className={styles.content}>
-            <section className={styles.section}>
-              <MetaText text="Описание" className={styles.sectionLabel} />
-              <p className={styles.description}>{project.description}</p>
-            </section>
+          <div className={styles.hero}>
+            <div className={styles.imageWrap}>
+              <Image
+                className={styles.image}
+                src={project.imageSrc}
+                alt={project.imageAlt || project.title}
+                width={1600}
+                height={900}
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                priority
+              />
+            </div>
 
-            <section className={styles.section}>
-              <MetaText text="Что сделали" className={styles.sectionLabel} />
-              <ul className={styles.deliverables}>
-                {project.deliverables.map((item) => (
-                  <li key={item} className={styles.deliverable}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </section>
+            <div className={styles.content}>
+              <div className={styles.block}>
+                <MetaText text="Описание" className={styles.sectionLabel} />
+                <p className={styles.description}>{project.description}</p>
+              </div>
+
+              <div className={styles.block}>
+                <MetaText text="Что сделали" className={styles.sectionLabel} />
+                <ul className={styles.deliverables}>
+                  {project.deliverables.map((item) => (
+                    <li key={item} className={styles.deliverable}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* {secondaryDetails.length > 0 ? (
-          <div className={styles.secondaryDetails}>
-            {secondaryDetails.map((detail) => (
-              <div key={detail.label} className={styles.secondaryDetail}>
-                <MetaText text={detail.label} className={styles.metaBarLabel} />
-                <span className={styles.metaBarValue}>{detail.value}</span>
-              </div>
-            ))}
-          </div>
-        ) : null} */}
       </Container>
-    </main>
+    </section>
   );
 }

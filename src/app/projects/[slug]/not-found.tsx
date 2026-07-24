@@ -6,17 +6,19 @@ import styles from "./page.module.css";
 
 export default function ProjectNotFound() {
   return (
-    <main className={styles.main}>
+    <section className={styles.project} aria-label="Проект не найден">
       <Container>
-        <MetaText text="[ 404 ]" className={styles.metaText} />
-        <h1 className={styles.title}>Проект не найден</h1>
-        <p className={styles.description}>
-          Возможно, ссылка устарела или проект ещё не опубликован.
-        </p>
-        <Link href="/#projects" className={styles.backLink}>
-          Все проекты
-        </Link>
+        <div className={styles.inner}>
+          <MetaText text="[ 404 ]" className={styles.metaText} />
+          <h1 className={styles.title}>Проект не найден</h1>
+          <p className={styles.description}>
+            Возможно, ссылка устарела или проект ещё не опубликован.
+          </p>
+          <Link href="/#projects" className={styles.backLink}>
+            Все проекты
+          </Link>
+        </div>
       </Container>
-    </main>
+    </section>
   );
 }

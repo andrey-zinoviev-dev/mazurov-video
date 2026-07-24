@@ -1,7 +1,7 @@
 .section {
   --services-line: rgba(255, 255, 255, 0.14);
   position: relative;
-  padding-top: clamp(3.5rem, 8vw, 6rem);
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
   color: rgba(255, 255, 255, 0.92);
 }
 

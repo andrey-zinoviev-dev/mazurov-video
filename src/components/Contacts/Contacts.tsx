@@ -15,7 +15,7 @@ export function Contacts() {
       aria-labelledby="contact-emotional-heading"
     >
       <Container className={styles.inner}>
-        <p className={styles.kicker}>Видеопродакшен · полный цикл · по России и СНГ</p>
+        <p className={styles.kicker}>Видеопродакшн · полный цикл · по России и СНГ</p>
 
         <div className={styles.split}>
           <header className={styles.headlineCol}>

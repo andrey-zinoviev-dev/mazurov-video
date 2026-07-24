@@ -5,7 +5,8 @@
   --contacts-accent: rgba(10, 10, 10, 0.88);
 
   position: relative;
-  padding: clamp(3rem, 7vw, 5rem) 0 clamp(3.5rem, 8vw, 6rem);
+  /* padding: clamp(3rem, 7vw, 5rem) 0 clamp(3.5rem, 8vw, 6rem); */
+  padding: clamp(3.5rem, 8vw, 6rem) 0;
   color: var(--contacts-fg);
   background-color: var(--contacts-bg);
   background-image:
