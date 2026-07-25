@@ -29,7 +29,7 @@ export function Hero() {
 
             <div className={styles.mediaTop}>
               <div className={styles.mediaMetaRow}>
-                <MetaText text="Showreel" className={styles.mediaMeta} />
+                <MetaText text="FRAME CRF" className={styles.mediaMeta} />
                 <MetaText text="001" className={styles.mediaMeta} />
               </div>
               <div className={styles.videoTop}>
@@ -81,7 +81,8 @@ export function Hero() {
             <video
               src="/showreel_mazurov.mp4"
               className={styles.showreelVideo}
-              // controls
+              controls
+              controlsList="nodownload"
               autoPlay
               muted
               loop

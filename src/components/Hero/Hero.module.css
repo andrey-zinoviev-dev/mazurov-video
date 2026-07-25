@@ -446,19 +446,19 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.06);
+  /* background: rgba(255, 255, 255, 0.06); */
 }
 
 .showreelVideo {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 @media (max-width: 640px) {
   .showreelVideoWrap {
-    aspect-ratio: 1 / 1;
+    /* aspect-ratio: 1 / 1; */
   }
 }
 
