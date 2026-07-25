@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Golos_Text, IBM_Plex_Mono, Roboto_Condensed } from "next/font/google";
+import { YandexMetricaProvider } from "next-yandex-metrica";
 import { AppHeader } from "@/components/AppHeader/AppHeader";
-import "./globals.css";
 import { Footer } from "@/components/Footer/Footer";
+import "./globals.css";
+
+const YANDEX_METRICA_ID = 111015189;
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ["latin", "cyrillic"],
@@ -32,17 +35,36 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const content = (
+    <>
+      <AppHeader />
+      <main id="site-top">{children}</main>
+      <Footer />
+    </>
+  );
+
   return (
     <html
       lang="ru"
       className={`${golosText.variable} ${robotoCondensed.variable} ${ibmPlexMono.variable}`}
     >
       <body className={golosText.className}>
-        <AppHeader />
-        <main id="site-top">
-          {children}
-        </main>
-        <Footer />
+        {process.env.NODE_ENV === "production" ? (
+          <YandexMetricaProvider
+            tagID={YANDEX_METRICA_ID}
+            router="app"
+            initParameters={{
+              clickmap: true,
+              trackLinks: true,
+              accurateTrackBounce: true,
+              webvisor: true,
+            }}
+          >
+            {content}
+          </YandexMetricaProvider>
+        ) : (
+          content
+        )}
       </body>
     </html>
   );
