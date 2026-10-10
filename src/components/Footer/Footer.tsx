@@ -8,7 +8,16 @@ export function Footer() {
       <Contacts />
 
       <div className={styles.bottom}>
-        <LogoLink />
+        <div className={styles.brand}>
+          <LogoLink />
+          <p className={styles.requisites}>
+            ИП «Мазуров А. В.»
+            <span className={styles.requisitesSep} aria-hidden>
+              ·
+            </span>
+            ИНН 695009651144
+          </p>
+        </div>
         <div className={styles.socials}>
           <a
             href="https://t.me/MazurovRentBot"

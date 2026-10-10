@@ -12,7 +12,7 @@ type ProjectCoverProps = {
 export function ProjectCover({ project }: ProjectCoverProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isDesktop, setIsDesktop] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -31,23 +31,22 @@ export function ProjectCover({ project }: ProjectCoverProps) {
     };
   }, []);
 
-  const handleMouseEnter = async () => {
-    if (!isDesktop || !project.hoverVideoSrc) return;
+  useEffect(() => {
+    if (!shouldLoad) return;
 
     const video = videoRef.current;
     if (!video) return;
 
-    if (!videoLoaded) {
-      video.src = project.hoverVideoSrc;
-      video.load();
-      setVideoLoaded(true);
-    }
+    video.muted = true;
 
-    try {
-      await video.play();
-    } catch {
+    void video.play().catch(() => {
       // Ignore play errors (e.g. browser policies)
-    }
+    });
+  }, [shouldLoad]);
+
+  const handleMouseEnter = () => {
+    if (!isDesktop || !project.hoverVideoSrc) return;
+    setShouldLoad(true);
   };
 
   const handleMouseLeave = () => {
@@ -59,6 +58,7 @@ export function ProjectCover({ project }: ProjectCoverProps) {
   };
 
   const showVideoLayer = isDesktop && !!project.hoverVideoSrc;
+  const hasCover = Boolean(project.imageSrc);
 
   return (
     <div
@@ -66,18 +66,21 @@ export function ProjectCover({ project }: ProjectCoverProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Image
-        className={styles.image}
-        src={project.imageSrc}
-        alt={project.imageAlt || project.title}
-        fill
-        sizes="(max-width: 768px) 100vw, 50vw"
-      />
+      {hasCover ? (
+        <Image
+          className={styles.image}
+          src={project.imageSrc}
+          alt={project.imageAlt || project.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      ) : null}
 
       {showVideoLayer && (
         <video
           ref={videoRef}
           className={styles.hoverVideo}
+          src={shouldLoad ? project.hoverVideoSrc : undefined}
           muted
           loop
           playsInline

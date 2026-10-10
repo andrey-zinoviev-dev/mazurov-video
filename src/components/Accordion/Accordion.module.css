@@ -1,0 +1,126 @@
+.list {
+  --accordion-line: rgba(255, 255, 255, 0.12);
+  --accordion-index-w: 2.75rem;
+  --accordion-gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--accordion-line);
+}
+
+.item {
+  margin: 0;
+  border-bottom: 1px solid var(--accordion-line);
+}
+
+.accordion {
+  margin: 0;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: var(--accordion-index-w) minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--accordion-gap);
+  padding: 1.25rem 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary::marker {
+  content: "";
+}
+
+.index {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.28);
+  user-select: none;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-headline), system-ui, sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.icon::before {
+  content: "+";
+}
+
+.accordion[open] .icon::before {
+  content: "×";
+}
+
+/*
+  Content stays in the HTML. Closed state is visual-only:
+  collapse via CSS grid (not removed from markup).
+*/
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+
+.accordion[open] .panel {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  overflow: hidden;
+  min-height: 0;
+  padding-left: calc(var(--accordion-index-w) + var(--accordion-gap));
+}
+
+.content {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 1.35rem;
+  max-width: 52rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.content li {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: clamp(0.875rem, 1.4vw, 1rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.label {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+  }
+}

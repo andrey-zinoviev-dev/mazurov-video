@@ -379,7 +379,7 @@
     align-items: flex-start;
     gap: 0.15rem;
     width: 100%;
-    font-size: clamp(1.65rem, 8.5vw, 2.15rem);
+    font-size: clamp(1.65rem, 40px, 2.15rem);
     padding: 0;
   }
 

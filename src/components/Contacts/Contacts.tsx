@@ -1,13 +1,23 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
 import { Container } from "@/components/Container/Container";
 import { Headline } from "@/components/Typography/Headline";
+import { MetaText } from "@/components/MetaText/MetaText";
+import { Paragraph } from "@/components/Typography/Paragraph";
+import {
+  serviceFromPathname,
+  trackContactTelegram,
+} from "@/lib/metrica/goals";
 import styles from "./Contacts.module.css";
-import { MetaText } from "../MetaText/MetaText";
-import { Paragraph } from "../Typography/Paragraph";
 
 const TELEGRAM_USER = "mazurov_prod";
 const TELEGRAM_URL = `https://t.me/${TELEGRAM_USER}`;
 
 export function Contacts() {
+  const pathname = usePathname() ?? "/";
+
   return (
     <section
       className={styles.section}
@@ -40,6 +50,12 @@ export function Contacts() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Открыть Telegram: @${TELEGRAM_USER}`}
+                onClick={() => {
+                  trackContactTelegram({
+                    from: "contacts_block",
+                    service: serviceFromPathname(pathname),
+                  });
+                }}
               >
                 <MetaText text="Связаться в Telegram" />
               </a>

@@ -1,3 +1,17 @@
+.pageTitle {
+  margin: 0;
+  font-family: var(--font-headline), system-ui, sans-serif;
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.pageTitle span {
+  display: block;
+}
+
 .headline {
   margin: 0;
   font-size: 36px;
@@ -11,5 +25,13 @@
   font-size: 20px;
   line-height: 1.55;
   opacity: 0.75;
-      max-width: 38ch;
+  max-width: 38ch;
+}
+
+@media (max-width: 899px) {
+  .pageTitle {
+    font-size: 40px;
+    /* Slightly looser than desktop 0.92 so Cyrillic descenders (й, Д) don't collide */
+    line-height: 1;
+  }
 }

@@ -5,6 +5,8 @@
   --contacts-accent: rgba(10, 10, 10, 0.88);
 
   position: relative;
+  /* Clear fixed header when jumping via #contact */
+  scroll-margin-top: calc(clamp(3.75rem, 8vh, 5rem) + 0.35rem);
   /* padding: clamp(3rem, 7vw, 5rem) 0 clamp(3.5rem, 8vw, 6rem); */
   padding: clamp(3.5rem, 8vw, 6rem) 0;
   color: var(--contacts-fg);

@@ -157,6 +157,29 @@
   padding: clamp(1rem, 2vw, 1.5rem) clamp(1.25rem, 4vw, 3rem);
 }
 
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.requisites {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.requisitesSep {
+  margin: 0 0.45em;
+  opacity: 0.7;
+}
+
 .socials {
   display: flex;
   flex-wrap: wrap;
@@ -184,23 +207,6 @@
   outline-offset: 4px;
 }
 
-.legal {
-  font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.88);
-  text-decoration: none;
-  margin-left: auto;
-}
-
-.legal:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.legal:focus-visible {
-  outline: 1px solid rgba(255, 255, 255, 0.45);
-  outline-offset: 3px;
-}
-
 @media (max-width: 720px) {
   .aside {
     justify-self: start;
@@ -208,6 +214,9 @@
   }
   .bottom {
     align-items: flex-start;
+  }
+  .requisites {
+    max-width: 18rem;
   }
   .socialLink {
     font-size: 12px;

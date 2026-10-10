@@ -1,5 +1,7 @@
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { HeroVideo } from "./HeroVideo";
+import { ShowreelVideo } from "./ShowreelVideo";
 import styles from "./Hero.module.css";
 import { Container } from "../Container/Container";
 
@@ -9,12 +11,9 @@ function Offer({ className }: { className: string }) {
       <p className={styles.subhead}>
         От концепции до финального ролика — по всей России и СНГ
       </p>
-      <a href="#contact" className={styles.cta}>
+      <ContactCtaLink from="hero" className={styles.cta}>
         Обсудить проект
-        {/* <span className={styles.ctaArrow} aria-hidden>
-          →
-        </span> */}
-      </a>
+      </ContactCtaLink>
     </div>
   );
 }
@@ -77,18 +76,7 @@ export function Hero() {
       <section className={styles.showreel} aria-label="Showreel">
         <Container>
           <MetaText text="[ SHOWREEL ]" className={styles.showreelMeta} />
-          <div className={styles.showreelVideoWrap}>
-            <video
-              src="/showreel_mazurov.mp4"
-              className={styles.showreelVideo}
-              controls
-              controlsList="nodownload"
-              autoPlay
-              muted
-              loop
-              playsInline
-            />
-          </div>
+          <ShowreelVideo />
         </Container>
       </section>
     </>

@@ -1,0 +1,241 @@
+.hero {
+  --about-pad-y: clamp(1.25rem, 3vh, 2.5rem);
+  --header-clearance: calc(clamp(3.75rem, 8vh, 5rem) + 0.35rem);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(2rem, 6vh, 4rem);
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-block: var(--header-clearance) var(--about-pad-y);
+  color: rgba(255, 255, 255, 0.94);
+  background: #000;
+  overflow-x: clip;
+}
+
+.services {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  color: rgba(255, 255, 255, 0.92);
+  background: #000;
+}
+
+.geo {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  color: rgba(255, 255, 255, 0.92);
+  background: #000;
+}
+
+.b2b {
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+  color: rgba(255, 255, 255, 0.92);
+  background: #000;
+}
+
+.servicesMeta {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.servicesAside {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.servicesHeading {
+  margin: 0;
+  font-family: var(--font-headline), system-ui, sans-serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.servicesBridge {
+  margin: 0;
+  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.geoFacts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2rem) clamp(1.5rem, 4vw, 3rem);
+}
+
+.geoFact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.geoValue {
+  font-family: var(--font-headline), system-ui, sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.geoLabel {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.serviceTitle {
+  font-family: var(--font-headline), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.servicePromo {
+  margin: 0;
+  max-width: 52ch;
+  margin-left: auto;
+  font-size: clamp(0.8125rem, 1.1vw, 0.9375rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.introWrap {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(1rem, 2.5vh, 1.75rem);
+  width: fit-content;
+}
+
+.label {
+  --meta-text-color: rgba(255, 255, 255, 0.55);
+  --meta-text-font-size: 11px;
+}
+
+.body {
+  margin: 0;
+  max-width: 48ch;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(0.6875rem, 1.1vw, 0.8125rem);
+  line-height: 1.7;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.headline {
+  max-width: 14ch;
+}
+
+/* Full-bleed: wider than viewport, centered — outer frames crop at edges */
+.strip {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(0.35rem, 0.7vw, 0.65rem);
+  width: calc(100vw + 8vw);
+  margin-left: calc(50% - 50vw - 4vw);
+  flex-shrink: 0;
+}
+
+.stripItem {
+  min-width: 0;
+}
+
+.figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #111;
+}
+
+.image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.caption {
+  --meta-text-font-size: 10px;
+  --meta-text-color: rgba(255, 255, 255, 0.5);
+  padding-inline: 0.15rem;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  .servicePromo {
+    margin-left: 0;
+    max-width: none;
+  }
+
+  .introWrap {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+  }
+
+  .headline {
+    max-width: 12ch;
+  }
+
+  .body {
+    max-width: 48ch;
+    letter-spacing: 0.08em;
+  }
+
+  .strip {
+    display: flex;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stripItem {
+    flex: 0 0 auto;
+    width: min(48vw, 12.5rem);
+    scroll-snap-align: start;
+  }
+
+  /* Peek of next frame — feels like the strip continues off-screen */
+  .stripItem:first-child {
+    margin-left: 1rem;
+  }
+
+  .stripItem:last-child {
+    margin-right: 1rem;
+  }
+}

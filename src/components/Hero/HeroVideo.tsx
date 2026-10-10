@@ -45,7 +45,7 @@ export function HeroVideo({
   return (
     <video
       className={className ?? styles.video}
-      src="/0723.mp4"
+      src="/hero_opt.mp4"
       autoPlay
       muted
       playsInline
