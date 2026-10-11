@@ -25,7 +25,7 @@ export default function ProjectsPage() {
   return (
     <>
       <JsonLd nodes={projectsIndexJsonLd(projects)} />
-      <Projects standalone />
+      <Projects projects={projects} standalone showFilters />
     </>
   );
 }

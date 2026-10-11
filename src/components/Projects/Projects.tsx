@@ -1,27 +1,44 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Container } from "@/components/Container/Container";
 import { MetaText } from "@/components/MetaText/MetaText";
 import { Headline } from "@/components/Typography/Headline";
 import { PageTitle } from "@/components/Typography/PageTitle";
 import { Paragraph } from "@/components/Typography/Paragraph";
-import { getAllProjects, type Project } from "@/data/projects";
+import {
+  getProjectShootingTypes,
+  type Project,
+} from "@/data/projects";
 import { ProjectCover } from "./ProjectCover";
 import styles from "./Projects.module.css";
 
 type ProjectsProps = {
-  projects?: Project[];
+  projects: Project[];
   /** Ссылка «Все проекты» под сеткой (для главной). */
   showViewAll?: boolean;
   /** Больше верхний отступ под фиксированный хедер на отдельной странице. */
   standalone?: boolean;
+  /** Фильтры по типу съёмки над списком (для /projects). */
+  showFilters?: boolean;
 };
 
 export function Projects({
-  projects = getAllProjects(),
+  projects,
   showViewAll = false,
   standalone = false,
+  showFilters = false,
 }: ProjectsProps) {
+  const [activeType, setActiveType] = useState<string | null>(null);
+
+  const shootingTypes = showFilters ? getProjectShootingTypes(projects) : [];
+  const visibleProjects =
+    showFilters && activeType
+      ? projects.filter((project) => project.shootingType === activeType)
+      : projects;
+
   const sectionClass = [
     styles.section,
     standalone ? styles.sectionStandalone : "",
@@ -53,8 +70,49 @@ export function Projects({
             проекта, чтобы понять формат и подход.
           </Paragraph>
         ) : null}
+
+        {showFilters && shootingTypes.length > 0 ? (
+          <div
+            className={styles.filters}
+            role="group"
+            aria-label="Фильтр по типу проекта"
+          >
+            <button
+              type="button"
+              className={[
+                styles.filterButton,
+                activeType === null ? styles.filterButtonActive : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+              aria-pressed={activeType === null}
+              onClick={() => setActiveType(null)}
+            >
+              Все
+            </button>
+            {shootingTypes.map((type) => (
+              <button
+                key={type}
+                type="button"
+                className={[
+                  styles.filterButton,
+                  activeType === type ? styles.filterButtonActive : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                aria-pressed={activeType === type}
+                onClick={() =>
+                  setActiveType((current) => (current === type ? null : type))
+                }
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+        ) : null}
+
         <ul className={styles.list}>
-          {projects.map((project) => (
+          {visibleProjects.map((project) => (
             <li key={project.slug}>
               <Link href={`/projects/${project.slug}/`} className={styles.item}>
                 <ProjectCover project={project} />

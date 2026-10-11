@@ -35,8 +35,9 @@ const PROJECTS: Project[] = [
     slug: "te-kto-pishut-hity",
     title: "Те, кто пишут хиты",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/te-kto-pishut-hity/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/te-kto-pishut-hity/preview.mp4",
     contractor: "Яндекс Музыка",
     budget: "",
     shootingType: "Документальный фильм",
@@ -52,8 +53,9 @@ const PROJECTS: Project[] = [
     slug: "8-bit",
     title: "8 БИТ",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/8-bit/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/8-bit/preview.mp4",
     contractor: "ЯОбразование",
     budget: "",
     shootingType: "Документальный фильм",
@@ -69,8 +71,10 @@ const PROJECTS: Project[] = [
     slug: "yandex-uchebnik-teachers-conference-2026",
     title: "Конференция Яндекс Учебника для учителей информатики 2026",
     year: "2026",
-    imageSrc: "",
+    imageSrc: "/MPreviews/yandex-uchebnik-teachers-conference-2026/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc:
+      "/MPreviews/yandex-uchebnik-teachers-conference-2026/preview.mp4",
     contractor: "Яндекс Учебник",
     budget: "",
     shootingType: "Прямая трансляция",
@@ -86,8 +90,9 @@ const PROJECTS: Project[] = [
     slug: "reklama-yandex-uchebnik",
     title: "Реклама ЯУчебник",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/reklama-yandex-uchebnik/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/reklama-yandex-uchebnik/preview.mp4",
     contractor: "Яндекс Учебник",
     budget: "",
     shootingType: "Постановочные съёмки",
@@ -281,8 +286,9 @@ const PROJECTS: Project[] = [
     slug: "plus-dacha",
     title: "Плюс Дача",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/plus-dacha/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/plus-dacha/preview.mp4",
     contractor: "",
     budget: "",
     shootingType: "Запись и монтаж лайв-выступления",
@@ -349,8 +355,9 @@ const PROJECTS: Project[] = [
     slug: "lekciya-mobilnaya-razrabotka",
     title: "Лекция по мобильной разработке",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/lekciya-mobilnaya-razrabotka/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/lekciya-mobilnaya-razrabotka/preview.mp4",
     contractor: "",
     budget: "",
     shootingType: "Съёмка лекции",
@@ -383,8 +390,9 @@ const PROJECTS: Project[] = [
     slug: "lekcii-dlya-shkolnikov",
     title: "Лекции для школьников",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/lekcii-dlya-shkolnikov/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/lekcii-dlya-shkolnikov/preview.mp4",
     contractor: "",
     budget: "",
     shootingType: "Съёмка лекции",
@@ -395,8 +403,9 @@ const PROJECTS: Project[] = [
     slug: "webinars-avito-nedvizhimost",
     title: "Вебинары для Авито Недвижимости",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/webinars-avito-nedvizhimost/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/webinars-avito-nedvizhimost/preview.mp4",
     contractor: "Авито Недвижимость",
     budget: "",
     shootingType: "Вебинар",
@@ -412,8 +421,9 @@ const PROJECTS: Project[] = [
     slug: "webinar-garantiya-dohoda-45-dney",
     title: "Вебинар «Гарантия дохода за 45 дней»",
     year: "",
-    imageSrc: "",
+    imageSrc: "/MPreviews/webinar-garantiya-dohoda-45-dney/cover.jpg",
     imageAlt: "",
+    hoverVideoSrc: "/MPreviews/webinar-garantiya-dohoda-45-dney/preview.mp4",
     contractor: "",
     budget: "",
     shootingType: "Вебинар",
@@ -493,6 +503,22 @@ export function getAllProjects(): Project[] {
 
 export function getProjectBySlug(slug: string): Project | undefined {
   return PROJECTS.find((project) => project.slug === slug);
+}
+
+/** Уникальные типы съёмки в порядке первого появления. */
+export function getProjectShootingTypes(
+  projects: Project[] = PROJECTS,
+): string[] {
+  const seen = new Set<string>();
+  const types: string[] = [];
+
+  for (const project of projects) {
+    if (!project.shootingType || seen.has(project.shootingType)) continue;
+    seen.add(project.shootingType);
+    types.push(project.shootingType);
+  }
+
+  return types;
 }
 
 /** Проекты для блока на главной — в порядке HOME_PROJECT_SLUGS. */

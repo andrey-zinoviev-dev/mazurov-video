@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import type { Project } from "@/data/projects";
 import styles from "./Projects.module.css";
 
@@ -9,44 +9,28 @@ type ProjectCoverProps = {
   project: Project;
 };
 
+function canHoverPlay() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+}
+
 export function ProjectCover({ project }: ProjectCoverProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [shouldLoad, setShouldLoad] = useState(false);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
-
-    const updateMatch = () => {
-      setIsDesktop(mediaQuery.matches);
-    };
-
-    updateMatch();
-    mediaQuery.addEventListener("change", updateMatch);
-
-    return () => {
-      mediaQuery.removeEventListener("change", updateMatch);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!shouldLoad) return;
+  const handleMouseEnter = () => {
+    if (!project.hoverVideoSrc || !canHoverPlay()) return;
 
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true;
+    // video.src без атрибута резолвится в URL страницы — смотрим атрибут.
+    if (!video.getAttribute("src")) {
+      video.src = project.hoverVideoSrc;
+    }
 
+    video.muted = true;
     void video.play().catch(() => {
       // Ignore play errors (e.g. browser policies)
     });
-  }, [shouldLoad]);
-
-  const handleMouseEnter = () => {
-    if (!isDesktop || !project.hoverVideoSrc) return;
-    setShouldLoad(true);
   };
 
   const handleMouseLeave = () => {
@@ -57,7 +41,6 @@ export function ProjectCover({ project }: ProjectCoverProps) {
     video.currentTime = 0;
   };
 
-  const showVideoLayer = isDesktop && !!project.hoverVideoSrc;
   const hasCover = Boolean(project.imageSrc);
 
   return (
@@ -76,18 +59,16 @@ export function ProjectCover({ project }: ProjectCoverProps) {
         />
       ) : null}
 
-      {showVideoLayer && (
+      {project.hoverVideoSrc ? (
         <video
           ref={videoRef}
           className={styles.hoverVideo}
-          src={shouldLoad ? project.hoverVideoSrc : undefined}
           muted
           loop
           playsInline
           preload="none"
         />
-      )}
+      ) : null}
     </div>
   );
 }
-
