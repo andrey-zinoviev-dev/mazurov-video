@@ -7,32 +7,50 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Документальные фильмы";
+const SERVICE_NAME =
+  "Производство документальных фильмов для компаний и брендов";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Производство документального кино и корпоративных документальных фильмов.";
+  "Самостоятельное документальное высказывание от лица бренда — история, интересная зрителю и за пределами корпоративной повестки.";
 const SERVICE_PATH = "/services/documentary/";
 
 export const metadata: Metadata = {
-  title: "Документальные фильмы | B2B Продакшн Москва",
+  title:
+    "Производство документальных фильмов для компаний | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Документальные фильмы | B2B Продакшн Москва",
+    title:
+      "Производство документальных фильмов для компаний | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "Структура до монтажа",
+    description: "Согласуем текстовый план фильма до чистового монтажа.",
+  },
+  {
+    title: "Съёмка вне интервью",
+    description: "Снимаем действия героев, их окружение и детали истории.",
+  },
+  {
+    title: "Документы к фильму",
+    description: "Передаём реестр прав на архивные кадры и музыку.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -69,18 +87,22 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "te-kto-pishut-hity",
     title: "«Те, кто пишут хиты»",
     task: "Документальный фильм для Яндекс Музыки про российских саунд-продюсеров",
   },
   {
+    slug: "kulturny-marafon-2025",
     title: "Культурный Марафон 2025",
     task: "Съемки в рамках проекта «Культурный Марафон» по инициативе Министерства культуры РФ и Яндекс Книг",
   },
   {
+    slug: "nasledie-korolya-i-shuta",
     title: "Наследие Короля и Шута",
     task: null,
   },
   {
+    slug: "8-bit",
     title: "8 БИТ",
     task: "Серия документальных фильмов для ЯОбразования про современные технологии",
   },
@@ -193,43 +215,15 @@ export default function DocumentaryPage() {
         })}
       />
 
-      <section
-        className={styles.hero}
-        aria-labelledby="documentary-hero-heading"
-      >
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText
-              text="[ SERVICES / ДОКУМЕНТАЛЬНЫЕ ФИЛЬМЫ ]"
-              className={styles.meta}
-            />
-            <PageTitle id="documentary-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="documentary"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил документальных фильмов — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · DOCUMENTARY ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / ДОКУМЕНТАЛЬНЫЕ ФИЛЬМЫ ]"
+        title={SERVICE_NAME}
+        titleId="documentary-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="documentary"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -241,21 +235,22 @@ export default function DocumentaryPage() {
             Документальные фильмы
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

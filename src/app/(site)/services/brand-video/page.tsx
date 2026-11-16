@@ -7,32 +7,48 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Бренд-видео: видеовизитки и имиджевые съемки";
+const SERVICE_NAME = "Съемка имиджевых роликов и видеовизиток для брендов";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Производство брендовых и имиджевых роликов для компаний.";
+  "Бренд получает узнаваемый образ и убедительный рассказ о своей ценности, а не универсальный имиджевый ролик с логотипом.";
 const SERVICE_PATH = "/services/brand-video/";
 
 export const metadata: Metadata = {
-  title: "Бренд-видео и имиджевые ролики | B2B Продакшн Москва",
+  title: "Съемка имиджевых роликов и видеовизиток | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Бренд-видео и имиджевые ролики | B2B Продакшн Москва",
+    title: "Съемка имиджевых роликов и видеовизиток | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "Аудитория до сценария",
+    description: "Фиксируем главную аудиторию и ключевой тезис ролика.",
+  },
+  {
+    title: "Сотрудники в кадре",
+    description: "Режиссёр готовит героев к съёмке и ведёт интервью.",
+  },
+  {
+    title: "Факты в кадре",
+    description:
+      "До сдачи сверяем, чем подтверждено каждое заявление в ролике.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -59,6 +75,7 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "vizitka-avito-nedvizhimost-cd",
     title:
       "Визитка коммерческого директора жилой и загородной недвижимости «Авито Недвижимость»",
     task: "Съемка и монтаж ролика для представления кандидата в номинации",
@@ -180,37 +197,15 @@ export default function BrandVideoPage() {
         })}
       />
 
-      <section className={styles.hero} aria-labelledby="brand-video-hero-heading">
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText text="[ SERVICES / БРЕНД-ВИДЕО ]" className={styles.meta} />
-            <PageTitle id="brand-video-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="brand-video"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил бренд-видео — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · BRAND ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / БРЕНД-ВИДЕО ]"
+        title={SERVICE_NAME}
+        titleId="brand-video-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="brand-video"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -222,21 +217,22 @@ export default function BrandVideoPage() {
             Видео для брендов
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

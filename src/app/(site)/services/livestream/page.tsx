@@ -7,32 +7,48 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Трансляции";
+const SERVICE_NAME = "Съемка и трансляция деловых и корпоративных событий";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Организация прямых трансляций мероприятий, презентаций и выступлений.";
+  "Эфир расширяет аудиторию события, а запись становится основой отчёта и новых версий для коммуникаций бренда.";
 const SERVICE_PATH = "/services/livestream/";
 
 export const metadata: Metadata = {
-  title: "Прямые трансляции | B2B Продакшн Москва",
+  title: "Съемка и трансляция деловых событий | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Прямые трансляции | B2B Продакшн Москва",
+    title: "Съемка и трансляция деловых событий | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "Единый план эфира",
+    description: "Обновляем программу, титры и логотипы в одном документе.",
+  },
+  {
+    title: "Прямой захват презентаций",
+    description: "Подаём слайды и демо в эфир напрямую с компьютера.",
+  },
+  {
+    title: "Записи для монтажа",
+    description:
+      "После приёмки — записи камер, аудиодорожки, эфир с графикой и без.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -59,23 +75,28 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "avito-puteshestviya-conference",
     title: "Онлайн-конференция Авито Путешествия",
     task: null,
   },
   {
+    slug: "yandex-uchebnik-teachers-conference-2026",
     title: "Конференция Яндекс Учебника для учителей информатики 2026",
     task: "Прямая многокамерная трансляция со световой застройкой от нашей команды",
   },
   {
+    slug: "gorodskie-geroi-avtonomnye-dostavshchiki",
     title: "Городские герои: секреты автономных доставщиков",
     task: "Прямая многокамерная трансляция со световой застройкой, разработанной под креативную застройку локации",
   },
   {
+    slug: "plenarnoe-zasedanie-it-yazyki-narodov-rossii",
     title:
       "Пленарное заседание III стратегической сессии «Информационные технологии и языки народов России»",
     task: "Прямая многокамерная трансляция со световой застройкой от нашей команды",
   },
   {
+    slug: "yace-2025",
     title: "YAC/E 2025",
     task: "Трансляция в рамках онлайн-конференции для учителей YAC/E 2025",
   },
@@ -196,40 +217,15 @@ export default function LivestreamPage() {
         })}
       />
 
-      <section
-        className={styles.hero}
-        aria-labelledby="livestream-hero-heading"
-      >
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText text="[ SERVICES / ТРАНСЛЯЦИИ ]" className={styles.meta} />
-            <PageTitle id="livestream-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="livestream"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил трансляций — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · LIVE STREAM ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / ТРАНСЛЯЦИИ ]"
+        title={SERVICE_NAME}
+        titleId="livestream-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="livestream"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -241,21 +237,22 @@ export default function LivestreamPage() {
             Проведенные трансляции
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

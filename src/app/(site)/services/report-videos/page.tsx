@@ -7,32 +7,49 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Отчетные ролики";
+const SERVICE_NAME = "Съемка отчетных роликов деловых и корпоративных мероприятий";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Съемка и монтаж отчетных роликов для мероприятий, грантов и корпоративных итогов.";
+  "Итоговое видео передаёт смысл события и его значение для компании — не набор ярких кадров, а содержательный итог мероприятия.";
 const SERVICE_PATH = "/services/report-videos/";
 
 export const metadata: Metadata = {
-  title: "Отчетные ролики | B2B Продакшн Москва",
+  title: "Съемка отчетных роликов мероприятий | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Отчетные ролики | B2B Продакшн Москва",
+    title: "Съемка отчетных роликов мероприятий | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "План работы камер",
+    description: "Позиции и маршруты заранее согласуем с организатором.",
+  },
+  {
+    title: "Съёмка по программе",
+    description:
+      "Ключевые блоки мероприятия закрываем по утверждённому плану.",
+  },
+  {
+    title: "Проверка обязательных кадров",
+    description:
+      "Логотипы, титры и порядок гостей сверяем с согласованным списком.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -59,22 +76,27 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "otchet-mitap-vremya",
     title: "Отчетный ролик митапа «Время»",
     task: null,
   },
   {
+    slug: "otchet-shad-2026",
     title: "Отчетный ролик встречи преподавателей ШАД 2026",
     task: null,
   },
   {
+    slug: "otchet-delo-v-reklame",
     title: "Отчетный ролик с конференции «Дело в рекламе»",
     task: null,
   },
   {
+    slug: "otchet-yandex-museum",
     title: "Отчетный ролик с фестиваля Яндекс музея",
     task: null,
   },
   {
+    slug: "otchet-yam-premiya",
     title: "Отчетный ролик с музыкальной премии ЯМузыки",
     task: null,
   },
@@ -194,43 +216,15 @@ export default function ReportVideosPage() {
         })}
       />
 
-      <section
-        className={styles.hero}
-        aria-labelledby="report-videos-hero-heading"
-      >
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText
-              text="[ SERVICES / ОТЧЕТНЫЕ РОЛИКИ ]"
-              className={styles.meta}
-            />
-            <PageTitle id="report-videos-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="report-videos"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил отчетных роликов — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · REPORT ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / ОТЧЕТНЫЕ РОЛИКИ ]"
+        title={SERVICE_NAME}
+        titleId="report-videos-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="report-videos"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -242,21 +236,22 @@ export default function ReportVideosPage() {
             Отчетные ролики с мероприятий
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

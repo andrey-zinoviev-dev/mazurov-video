@@ -7,17 +7,17 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
 const SERVICE_NAME = "Многокамерная съемка фестивалей, концертов и шоу";
 const SERVICE_DESCRIPTION =
-  "Запись чистого многоканального звука, гарантированная сохранность видеоматериала и прозрачные сроки утверждения монтажа.";
+  "У события остаётся запись для полноценного релиза — с чистым звуком и энергией живого выступления для зрителей вне площадки.";
 const SERVICE_PATH = "/services/shows/";
 
 export const metadata: Metadata = {
@@ -40,18 +40,17 @@ export const metadata: Metadata = {
 
 const B2B_GUARANTEES = [
   {
-    title: "100% защита данных",
-    description: "Параллельная запись всех видеосигналов (ISO + Master).",
+    title: "Съёмка по программе",
+    description: "Ракурсы и расстановку камер согласуем по трек-листу.",
   },
   {
-    title: "Живой объемный звук",
+    title: "Запись видео и звука",
     description:
-      "Раздельный забор с FOH-пульта + атмосфера зала (Ambience).",
+      "Пишем камеры и общий монтаж, отдельно — звук пульта и зала.",
   },
   {
-    title: "Контроль сроков",
-    description:
-      "Поэтапная приемка материала (Picture Lock → Цвет → Звук).",
+    title: "Порядок приёмки",
+    description: "Утверждаем монтаж, затем переходим к цвету и звуку.",
   },
 ] as const;
 
@@ -105,12 +104,14 @@ const FORMAT_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "yam-session-2024",
     title: "YAM Session 2024",
     scale: "Яндекс Музыка",
     task: "Многокамерная запись живого выступления артистов с 5 произведениями для Яндекс Музыки",
     formats: null,
   },
   {
+    slug: "plus-dacha",
     title: "Плюс Дача",
     scale: null,
     task: null,
@@ -192,55 +193,15 @@ export default function KontsertyPage() {
           breadcrumbLabel: "Концерты",
         })}
       />
-      {/* Блок 1: Hero */}
-      <section className={styles.hero} aria-labelledby="shows-hero-heading">
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText text="[ SERVICES / КОНЦЕРТЫ ]" className={styles.meta} />
-            <PageTitle id="shows-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            {/* <Paragraph className={styles.lead}>
-              Профессиональная съемка живых выступлений.
-            </Paragraph> */}
-            <Paragraph className={styles.lead}>
-              {SERVICE_DESCRIPTION}
-            </Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="shows"
-              className={styles.cta}
-            >
-              Заказать съемку шоу
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            {/* TODO: шоурил концертных съемок, 16:9 */}
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил концертов — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · LIVE / CONCERT ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-
-            <ul className={styles.guarantees} aria-label="Гарантии продакшна">
-              {B2B_GUARANTEES.map((item) => (
-                <li key={item.title} className={styles.guarantee}>
-                  <span className={styles.guaranteeTitle}>{item.title}</span>
-                  <span className={styles.guaranteeDesc}>
-                    {item.description}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / КОНЦЕРТЫ ]"
+        title={SERVICE_NAME}
+        titleId="shows-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Заказать съемку шоу"
+        service="shows"
+        guarantees={B2B_GUARANTEES}
+      />
 
       {/* Блок 2: Кейсы */}
       <section
@@ -254,30 +215,33 @@ export default function KontsertyPage() {
           </Headline>
 
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                {/* TODO: видеопревью с переключением плеера */}
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>
-                    {item.title}
-                    {item.scale ? (
-                      <span className={styles.caseAgency}> / {item.scale}</span>
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>
+                      {item.title}
+                      {item.scale ? (
+                        <span className={styles.caseAgency}>
+                          {" "}
+                          / {item.scale}
+                        </span>
+                      ) : null}
+                    </h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
                     ) : null}
-                  </h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                  {item.formats ? (
-                    <p className={styles.caseFormats}>{item.formats}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+                    {item.formats ? (
+                      <p className={styles.caseFormats}>{item.formats}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

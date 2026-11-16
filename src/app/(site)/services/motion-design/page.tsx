@@ -7,32 +7,50 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Motion Design и 3D-ролики";
+const SERVICE_NAME = "Производство motion design и 3D-роликов для бизнеса";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Производство motion- и 3D-роликов для брендов и digital.";
+  "Анимация объясняет продукт и процессы, которые не показать камерой, и остаётся пригодной для обновлений без новой съёмки.";
 const SERVICE_PATH = "/services/motion-design/";
 
 export const metadata: Metadata = {
-  title: "Motion Design и 3D-ролики | B2B Продакшн Москва",
+  title: "Производство motion design и 3D-роликов | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Motion Design и 3D-ролики | B2B Продакшн Москва",
+    title: "Производство motion design и 3D-роликов | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "Согласование аниматика",
+    description:
+      "На черновом видео проверяем сцены и время на чтение текста.",
+  },
+  {
+    title: "Тест перед финальным рендером",
+    description:
+      "Проверяем воспроизведение на целевом экране или медиасервере.",
+  },
+  {
+    title: "Исходники после утверждения",
+    description:
+      "Передаём проект по договору, с учётом лицензий на материалы.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -59,10 +77,12 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "motion-avito-nedvizhimost-opener",
     title: "Открывающий моушн-ролик для конференции Авито Недвижимости",
     task: "По референсам заказчика предложены творческие решения, сценарные переходы и выполнен последующий монтаж",
   },
   {
+    slug: "yandex-internal-info-video",
     title: "Информационный ролик для внутреннего использования компании Яндекс",
     task: null,
   },
@@ -182,43 +202,15 @@ export default function MotionDesignPage() {
         })}
       />
 
-      <section
-        className={styles.hero}
-        aria-labelledby="motion-design-hero-heading"
-      >
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText
-              text="[ SERVICES / MOTION DESIGN ]"
-              className={styles.meta}
-            />
-            <PageTitle id="motion-design-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="motion-design"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил Motion Design — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · MOTION / 3D ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / MOTION DESIGN ]"
+        title={SERVICE_NAME}
+        titleId="motion-design-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="motion-design"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -230,21 +222,22 @@ export default function MotionDesignPage() {
             Созданный motion design
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

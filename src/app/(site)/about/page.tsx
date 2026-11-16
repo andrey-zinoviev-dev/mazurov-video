@@ -21,32 +21,32 @@ export const metadata: Metadata = {
 
 const STRIP = [
   {
-    src: "/MPreviews/nail shary/neil shery.00_00_37_06.Still002.jpg",
+    src: "/MPreviews/nail shary/cover.jpg",
     alt: "Кадр из клипа Neil Shary",
     label: "01 / Neil Shary",
   },
   {
-    src: "/MPreviews/nastezh/nastezh.00_00_23_03.Still001.jpg",
+    src: "/MPreviews/nastezh/cover.jpg",
     alt: "Кадр из клипа Nastezh",
     label: "02 / Nastezh",
   },
   {
-    src: "/MPreviews/bookmate/Lundmoen CCv01 CGv02.00_03_22_05.Still003.jpg",
+    src: "/MPreviews/bookmate/cover.jpg",
     alt: "Кадр из рекламы Букмейт",
     label: "03 / Bookmate",
   },
   {
-    src: "/MPreviews/avito/yam.02_46_02_06.Still004.jpg",
+    src: "/MPreviews/avito/cover.jpg",
     alt: "Кадр из проекта Avito Путешествия",
     label: "04 / Avito",
   },
   {
-    src: "/MPreviews/nail shary/neil shery.00_02_34_12.Still004.jpg",
-    alt: "Портретный кадр из клипа Neil Shary",
-    label: "05 / Neil Shary",
+    src: "/MPreviews/kish/cover.jpg",
+    alt: "Кадр из проекта Наследие Короля и Шута",
+    label: "05 / КиШ",
   },
   {
-    src: "/MPreviews/YAM/yam.01_24_30_16.Still004.jpg",
+    src: "/MPreviews/YAM/cover.jpg",
     alt: "Кадр концертной съёмки",
     label: "06 / Концерт",
   },

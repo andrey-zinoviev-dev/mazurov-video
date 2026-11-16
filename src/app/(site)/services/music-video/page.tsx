@@ -7,17 +7,17 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
 const SERVICE_NAME = "Съемка и производство музыкальных клипов";
 const SERVICE_DESCRIPTION =
-  "Полный цикл создания видеоклипов для артистов и лейблов с юридической очисткой прав на видеоряд и гарантией сдачи финального мастера к утвержденной дате премьеры и промо-кампании.";
+  "Клип выходит к дате премьеры и старту промо-кампании — с правами на видеоряд для публикации и продвижения на выбранных площадках.";
 const SERVICE_PATH = "/services/music-video/";
 
 export const metadata: Metadata = {
@@ -39,9 +39,19 @@ export const metadata: Metadata = {
 };
 
 const B2B_GUARANTEES = [
-  "Фиксация дедлайна сдачи под график промо-кампании",
-  "Полный пакет документов на отчуждение прав (Talent / Location Release)",
-  "Прозрачная смета с фиксированным лимитом итераций правок",
+  {
+    title: "График под премьеру",
+    description:
+      "До съёмки фиксируем дату сдачи клипа и число раундов правок.",
+  },
+  {
+    title: "Отсмотр на площадке",
+    description: "Проверяем дубли и согласуем снятые сцены с артистом.",
+  },
+  {
+    title: "Документы для релиза",
+    description: "Оформляем согласия участников и владельцев локаций.",
+  },
 ] as const;
 
 const RISK_MATRIX = [
@@ -94,6 +104,7 @@ const FORMAT_MATRIX = [
 /** Скелет карточек кейсов — заменить на фильтрованную выборку из CMS/data. */
 const PORTFOLIO_CASES = [
   {
+    slug: "nastezh",
     artist: "Настежь",
     label: null,
     task: "Музыкальный клип",
@@ -101,6 +112,7 @@ const PORTFOLIO_CASES = [
     formats: null,
   },
   {
+    slug: "neil-shery",
     artist: "Нэйл Шери",
     label: null,
     task: "Музыкальный клип",
@@ -179,49 +191,15 @@ export default function VideoklipPage() {
           breadcrumbLabel: "Видеоклип",
         })}
       />
-      {/* Блок 1: Hero */}
-      <section className={styles.hero} aria-labelledby="music-video-hero-heading">
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText text="[ SERVICES / ВИДЕОКЛИП ]" className={styles.meta} />
-            <PageTitle id="music-video-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>
-              {SERVICE_DESCRIPTION}
-            </Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="music-video"
-              className={styles.cta}
-            >
-              Заказать видеоклип
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            {/* TODO: шоурил музыкальных клипов, 16:9 */}
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил видеоклипов — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · MUSIC VIDEOS ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-
-            <ul className={styles.guarantees} aria-label="B2B-гарантии">
-              {B2B_GUARANTEES.map((item) => (
-                <li key={item} className={styles.guarantee}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / ВИДЕОКЛИП ]"
+        title={SERVICE_NAME}
+        titleId="music-video-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Заказать видеоклип"
+        service="music-video"
+        guarantees={B2B_GUARANTEES}
+      />
 
       {/* Блок 2: Кейсы */}
       <section
@@ -235,33 +213,35 @@ export default function VideoklipPage() {
           </Headline>
 
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.artist}-${index}`} className={styles.caseCard}>
-                {/* TODO: видеопревью с hover-play */}
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.artist}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>
-                    {item.artist}
-                    {item.label ? (
-                      <span className={styles.caseAgency}>
-                        {" "}
-                        / {item.label}
-                      </span>
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>
+                      {item.artist}
+                      {item.label ? (
+                        <span className={styles.caseAgency}>
+                          {" "}
+                          / {item.label}
+                        </span>
+                      ) : null}
+                    </h3>
+                    <p className={styles.caseTask}>{item.task}</p>
+                    {item.duration || item.formats ? (
+                      <p className={styles.caseFormats}>
+                        {[item.duration, item.formats]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
                     ) : null}
-                  </h3>
-                  <p className={styles.caseTask}>{item.task}</p>
-                  {item.duration || item.formats ? (
-                    <p className={styles.caseFormats}>
-                      {[item.duration, item.formats].filter(Boolean).join(" · ")}
-                    </p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

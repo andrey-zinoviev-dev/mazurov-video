@@ -7,32 +7,48 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Мастер-классы и лекции";
+const SERVICE_NAME = "Съемка обучающих видео, мастер-классов и лекций";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Многокамерная съемка мастер-классов, лекций и образовательных выступлений.";
+  "Видео помогает освоить навык и повторить действие самостоятельно — компания получает инструмент обучения, а не архив выступлений.";
 const SERVICE_PATH = "/services/master-classes/";
 
 export const metadata: Metadata = {
-  title: "Съемка мастер-классов и лекций | B2B Продакшн Москва",
+  title: "Съемка обучающих видео, мастер-классов и лекций | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Съемка мастер-классов и лекций | B2B Продакшн Москва",
+    title:
+      "Съемка обучающих видео, мастер-классов и лекций | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "Учебный план до съёмки",
+    description: "Фиксируем результат урока, шаги и нужные демонстрации.",
+  },
+  {
+    title: "Действия крупным планом",
+    description: "Отдельно снимаем руки, инструменты и результат операции.",
+  },
+  {
+    title: "Проверка перед публикацией",
+    description: "Удаляем из записи пароли, уведомления и внутренние данные.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -59,14 +75,17 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "lekciya-mobilnaya-razrabotka",
     title: "Лекция по мобильной разработке",
     task: "Типовая трансляция лекции из конференц-зала с несколькими камерами и захватом презентации спикера",
   },
   {
+    slug: "mk-prepodavateli-informatiki",
     title: "МК для преподавателей информатики",
     task: "Типовая трансляция лекции из переговорной с одной камерой, светом и подготовкой оборудования для презентации или лайв-кодинга",
   },
   {
+    slug: "lekcii-dlya-shkolnikov",
     title: "Лекции для школьников",
     task: "Запись лекции для школьников",
   },
@@ -190,43 +209,15 @@ export default function MasterClassesPage() {
         })}
       />
 
-      <section
-        className={styles.hero}
-        aria-labelledby="master-classes-hero-heading"
-      >
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText
-              text="[ SERVICES / МАСТЕР-КЛАССЫ ]"
-              className={styles.meta}
-            />
-            <PageTitle id="master-classes-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="master-classes"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил мастер-классов — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · MASTER CLASS ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / МАСТЕР-КЛАССЫ ]"
+        title={SERVICE_NAME}
+        titleId="master-classes-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="master-classes"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -238,21 +229,22 @@ export default function MasterClassesPage() {
             Снятые мастер-классы и лекции
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

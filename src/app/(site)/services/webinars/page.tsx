@@ -7,32 +7,48 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
-import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
-const SERVICE_NAME = "Вебинары";
+const SERVICE_NAME = "Съемка и трансляция экспертных вебинаров для бизнеса";
 const SERVICE_DESCRIPTION =
-  "Контент страницы в разработке. Съемка и техническая организация вебинаров для компаний и образовательных проектов.";
+  "Экспертиза компании работает дольше одного эфира: помогает отвечать на вопросы клиентов и поддерживает продажи после трансляции.";
 const SERVICE_PATH = "/services/webinars/";
 
 export const metadata: Metadata = {
-  title: "Съемка вебинаров | B2B Продакшн Москва",
+  title: "Съемка и трансляция экспертных вебинаров | B2B Продакшн Москва",
   description: SERVICE_DESCRIPTION,
   alternates: {
     canonical: SERVICE_PATH,
   },
   openGraph: {
-    title: "Съемка вебинаров | B2B Продакшн Москва",
+    title: "Съемка и трансляция экспертных вебинаров | B2B Продакшн Москва",
     description: SERVICE_DESCRIPTION,
     url: SERVICE_PATH,
     type: "website",
   },
 };
+
+const B2B_GUARANTEES = [
+  {
+    title: "Репетиция со спикерами",
+    description: "До эфира проверяем связь, свет, кадр и звук каждого.",
+  },
+  {
+    title: "Локальная запись спикеров",
+    description:
+      "Ключевые выступления дополнительно пишем на компьютере спикера.",
+  },
+  {
+    title: "Версия для публикации",
+    description: "Убираем технические паузы, добавляем главы и титры.",
+  },
+] as const;
 
 const RISK_MATRIX = [
   {
@@ -59,10 +75,12 @@ const RISK_MATRIX = [
 
 const PORTFOLIO_CASES = [
   {
+    slug: "webinars-avito-nedvizhimost",
     title: "Вебинары для Авито Недвижимости",
     task: "Типовой онлайн-вебинар: подключение удаленных спикеров, сбор программы с графикой на нашей стороне и выпуск в эфир",
   },
   {
+    slug: "webinar-garantiya-dohoda-45-dney",
     title: "Вебинар «Гарантия дохода за 45 дней»",
     task: "Типовой онлайн-вебинар: подключение удаленных спикеров, сбор программы с графикой на нашей стороне и выпуск в эфир",
   },
@@ -186,37 +204,15 @@ export default function WebinarsPage() {
         })}
       />
 
-      <section className={styles.hero} aria-labelledby="webinars-hero-heading">
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText text="[ SERVICES / ВЕБИНАРЫ ]" className={styles.meta} />
-            <PageTitle id="webinars-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>{SERVICE_DESCRIPTION}</Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="webinars"
-              className={styles.cta}
-            >
-              Обсудить проект
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил вебинаров — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · WEBINAR ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / ВЕБИНАРЫ ]"
+        title={SERVICE_NAME}
+        titleId="webinars-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Обсудить проект"
+        service="webinars"
+        guarantees={B2B_GUARANTEES}
+      />
 
       <section
         className={styles.section}
@@ -228,21 +224,22 @@ export default function WebinarsPage() {
             Проведенные вебинары
           </Headline>
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.title}-${index}`} className={styles.caseCard}>
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.title}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>{item.title}</h3>
-                  {item.task ? (
-                    <p className={styles.caseTask}>{item.task}</p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>{item.title}</h3>
+                    {item.task ? (
+                      <p className={styles.caseTask}>{item.task}</p>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>

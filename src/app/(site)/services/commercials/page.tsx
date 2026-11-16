@@ -7,17 +7,18 @@ import {
 import { Container } from "@/components/Container/Container";
 import { JsonLd } from "@/components/JsonLd/JsonLd";
 import { Matrix, MatrixKey } from "@/components/Matrix/Matrix";
-import { ContactCtaLink } from "@/components/Metrica/ContactCtaLink";
 import { MetaText } from "@/components/MetaText/MetaText";
+import { ProjectCover } from "@/components/Projects/ProjectCover";
+import { ServiceHero } from "@/components/ServiceHero/ServiceHero";
 import { Headline } from "@/components/Typography/Headline";
-import { PageTitle } from "@/components/Typography/PageTitle";
 import { Paragraph } from "@/components/Typography/Paragraph";
+import { getProjectBySlug } from "@/data/projects";
 import { serviceJsonLd } from "@/lib/jsonld/builders";
 import styles from "./page.module.css";
 
 const SERVICE_NAME = "Съемка digital-рекламы и OLV-видео для брендов";
 const SERVICE_DESCRIPTION =
-  "Производство коммерческого видео с гарантией соблюдения B2B-комплаенса, фиксированной сметой и передачей исключительных прав.";
+  "Рекламный ролик, готовый к размещению: с фиксированной сметой и правами на использование в каналах кампании.";
 const SERVICE_PATH = "/services/commercials/";
 
 export const metadata: Metadata = {
@@ -38,9 +39,19 @@ export const metadata: Metadata = {
 };
 
 const B2B_GUARANTEES = [
-  "Постоплата от 30 до 90 дней",
-  "Работа по ЭДО (с НДС)",
-  "Фиксированная смета без перерасходов",
+  {
+    title: "PPM до съёмки",
+    description: "Утверждаем раскадровку, локации, график и смету.",
+  },
+  {
+    title: "Отсмотр на площадке",
+    description: "На площадке сверяем дубли с раскадровкой и брендбуком.",
+  },
+  {
+    title: "Права под медиаплан",
+    description:
+      "Проверяем эксклюзивность актёров и оформляем права на ролик.",
+  },
 ] as const;
 
 const RISK_MATRIX = [
@@ -92,6 +103,7 @@ const FORMAT_MATRIX = [
 /** Скелет карточек кейсов — заменить на фильтрованную выборку из CMS/data. */
 const PORTFOLIO_CASES = [
   {
+    slug: "reklama-yandex-uchebnik",
     brand: "Яндекс Учебник",
     agency: null,
     task: "9 рекламных роликов про сервис для подготовки к ЕГЭ",
@@ -99,6 +111,7 @@ const PORTFOLIO_CASES = [
     formats: null,
   },
   {
+    slug: "reklama-bookmate",
     brand: "Букмейт",
     agency: null,
     task: "Рекламные ролики",
@@ -185,49 +198,15 @@ export default function ReklamaPage() {
           breadcrumbLabel: "Реклама",
         })}
       />
-      {/* Блок 1: Hero */}
-      <section className={styles.hero} aria-labelledby="commercials-hero-heading">
-        <Container className={styles.heroInner}>
-          <div className={styles.heroCopy}>
-            <MetaText text="[ SERVICES / РЕКЛАМА ]" className={styles.meta} />
-            <PageTitle id="commercials-hero-heading" className={styles.h1}>
-              {SERVICE_NAME}
-            </PageTitle>
-            <Paragraph className={styles.lead}>
-              {SERVICE_DESCRIPTION}
-            </Paragraph>
-            <ContactCtaLink
-              from="service_cta"
-              service="commercials"
-              className={styles.cta}
-            >
-              Заказать рекламу
-            </ContactCtaLink>
-          </div>
-
-          <div className={styles.showreel}>
-            {/* TODO: шоурил только коммерческих интеграций и OLV, 16:9 */}
-            <div
-              className={styles.showreelFrame}
-              role="img"
-              aria-label="Шоурил рекламы — плейсхолдер"
-            >
-              <MetaText
-                text="[ SHOWREEL · OLV / COMMERCIAL ]"
-                className={styles.showreelPlaceholder}
-              />
-            </div>
-
-            <ul className={styles.guarantees} aria-label="B2B-гарантии">
-              {B2B_GUARANTEES.map((item) => (
-                <li key={item} className={styles.guarantee}>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      </section>
+      <ServiceHero
+        meta="[ SERVICES / РЕКЛАМА ]"
+        title={SERVICE_NAME}
+        titleId="commercials-hero-heading"
+        description={SERVICE_DESCRIPTION}
+        ctaLabel="Заказать рекламу"
+        service="commercials"
+        guarantees={B2B_GUARANTEES}
+      />
 
       {/* Блок 2: Портфолио */}
       <section
@@ -244,33 +223,35 @@ export default function ReklamaPage() {
           </Paragraph>
 
           <ul className={styles.portfolioGrid}>
-            {PORTFOLIO_CASES.map((item, index) => (
-              <li key={`${item.brand}-${index}`} className={styles.caseCard}>
-                {/* TODO: видеопревью с hover-play */}
-                <div
-                  className={styles.casePreview}
-                  role="img"
-                  aria-label={`Превью кейса: ${item.brand}`}
-                />
-                <div className={styles.caseMeta}>
-                  <h3 className={styles.caseBrand}>
-                    {item.brand}
-                    {item.agency ? (
-                      <span className={styles.caseAgency}>
-                        {" "}
-                        / {item.agency}
-                      </span>
+            {PORTFOLIO_CASES.map((item) => {
+              const project = getProjectBySlug(item.slug);
+              if (!project) return null;
+
+              return (
+                <li key={item.slug} className={styles.caseCard}>
+                  <ProjectCover project={project} />
+                  <div className={styles.caseMeta}>
+                    <h3 className={styles.caseBrand}>
+                      {item.brand}
+                      {item.agency ? (
+                        <span className={styles.caseAgency}>
+                          {" "}
+                          / {item.agency}
+                        </span>
+                      ) : null}
+                    </h3>
+                    <p className={styles.caseTask}>{item.task}</p>
+                    {item.duration || item.formats ? (
+                      <p className={styles.caseFormats}>
+                        {[item.duration, item.formats]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
                     ) : null}
-                  </h3>
-                  <p className={styles.caseTask}>{item.task}</p>
-                  {item.duration || item.formats ? (
-                    <p className={styles.caseFormats}>
-                      {[item.duration, item.formats].filter(Boolean).join(" · ")}
-                    </p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </Container>
       </section>
