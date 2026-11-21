@@ -123,6 +123,10 @@
   }
 }
 
+.imageWrap.previewPlaying .hoverVideo {
+  opacity: 1;
+}
+
 .chip {
   align-self: flex-start;
   max-width: 100%;
